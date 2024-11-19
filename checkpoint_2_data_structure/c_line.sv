@@ -2,9 +2,9 @@
 import line::*;
 
 module cache (
-input line::line_st tag_array,
-input line::line_st dirty,
-input line::line_st mesi,
+input line_st tag_array,
+input line_st mesi,
+input line_st valid,
 output wire [C_LINE_SIZE-1:0] offset,
 output wire [N_WAY-1:0] index,
 output wire [ADDR_SIZE - C_LINE_SIZE - N_WAY-1:0] tag
