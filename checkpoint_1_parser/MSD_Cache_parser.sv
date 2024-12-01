@@ -1,7 +1,5 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: Aakash Siddharth | Satyajit Deokar | Siddesh Patil | Rajani Kallur
 // 
 // Create Date: 02.11.2024 12:03:05
 // Design Name: 
@@ -26,19 +24,6 @@ module MSD_Cache_parser;
   int file;
   string line;
 
-  typedef struct {
-    logic [11:0] tag;
-    logic [13:0] index;
-    logic [5:0] offset;
-  } add_struct;
-
-  function add_struct decode_address(logic[31:0] address);
-    add_struct decode;
-    decode.tag = address[31:20];
-    decode.index = address[19:6];
-    decode.offset = address[5:0];
-    return decode;
-  endfunction
 
   initial begin
     `ifdef DEBUG
@@ -71,16 +56,16 @@ module MSD_Cache_parser;
       while (!$feof(file)) begin
         int n;
         bit [31:0] address;
-        add_struct address1;
+      
 
         // Read a line from the file
         if ($fgets(line, file)) begin
           // Parse the line format "n address" where n is a number and address is a hex
           if ($sscanf(line, "%d %h", n, address) == 2) begin
-            address1 = decode_address(address);
+          //  address1 = decode_address(address);
             `ifdef DEBUG
               $display("Parsed: n = %0d, \nAddress: Tag[31:20] = %h, Index[19:6] = %h , Offset[5:0] = %h",
-                        n, address1.tag, address1.index, address1.offset);
+                        n, address[31:20], address[19:6], address[5:0] );
             `endif
 
             // Process each trace event based on `n` value
