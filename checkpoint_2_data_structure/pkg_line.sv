@@ -13,6 +13,7 @@ parameter TAG_SIZE = ADDR_SIZE - OFFSET_SIZE - INDEX_SIZE;
 typedef enum bit [1:0] {M, E, S, I} mesi_e;
 
 typedef struct packed {
+
 	mesi_e mesi;
 	bit dirty;
 	bit valid;
@@ -20,6 +21,7 @@ typedef struct packed {
 	// wire [C_LINE-1:0] offset;
 	// wire [N_WAY-1:0] index;
 	logic [TAG_SIZE-1:0] tag;
+
 } line_st;
 
 typedef struct {
