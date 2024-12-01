@@ -1,7 +1,11 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 // Company: 
 // Engineer: Aakash Siddharth | Satyajit Deokar | Siddesh Patil | Rajani Kallur
+=======
+// 
+>>>>>>> ba8d507d55913c9a2131c8e2e0f8c3ba5f733e23
 // 
 // Create Date: 02.11.2024 12:03:05
 // Design Name: 
