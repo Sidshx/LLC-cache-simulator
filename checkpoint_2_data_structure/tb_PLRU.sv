@@ -13,8 +13,8 @@ cache_mem[0].plru_bits = '0;  // Set all bits to 0 initially
 First access W0 to W15 continuously
 Access W0 to W11
 Access W13 to W15
-So, Least Recently will be W12
-*/
+So, Least Recently will be W12, but as we are using PLRU it will come W0
+
 for(int i = 0; i <16;i++)
 begin
 UpdatePLRU(cache_mem[0].plru_bits, i);
@@ -30,6 +30,18 @@ for(int i = 13; i <16;i++)
 begin
 UpdatePLRU(cache_mem[0].plru_bits, i);
 #2;
+end
+*/
+
+for( int i = 0; i <8;i++)
+begin
+automatic int a = $urandom_range(0,14); 
+UpdatePLRU(cache_mem[0].plru_bits, a);
+end
+
+for(int i = 0; i<16; i++)
+begin
+$display("PLRUbits[%d] = %d", i ,cache_mem[0].plru_bits[i]);
 end
 
 VictimeWay = VictimPLRU(cache_mem[0].plru_bits);
