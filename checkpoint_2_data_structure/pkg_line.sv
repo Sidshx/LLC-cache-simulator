@@ -10,7 +10,8 @@ parameter INDEX_SIZE = $clog2(NUM_SETS);
 parameter TAG_SIZE = ADDR_SIZE - OFFSET_SIZE - INDEX_SIZE;
 
 
-typedef enum bit [1:0] {M, E, S, I} mesi_e;
+    typedef enum bit [1:0] {M = 2'b10, E = 2'b11, S = 2'b01, I = 2'b00} mesi_e;
+
 
 typedef struct packed {
 
