@@ -1,5 +1,5 @@
 `include "pkg_line.sv"
-import line::*;
+import pkg_line::*;
 
 module cache (
 
