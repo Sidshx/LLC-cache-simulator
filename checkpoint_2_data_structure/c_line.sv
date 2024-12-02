@@ -2,21 +2,33 @@
 import pkg_line::*;
 
 module cache (
-
+input logic clk,
+input logic rst,
 input logic [ADDR_SIZE-1:0] address,
+input logic read_req,
+input logic write_req,
+input logic invalidate,
 output logic [INDEX_SIZE-1:0] index,
 output logic [TAG_SIZE-1:0] tag
-// output line_st cache_line_out
-
-// input line_st mesi,
-// input line_st valid,
-// input line_st dirty,
-// output wire [C_LINE_SIZE-1:0] offset,
 );
 
 set_st cache_mem[NUM_SETS];
+mesi_e fsm_state;
 
-// assign offset = tag_array[OFFSET_SIZE-1 :0];
+assign index = address[OFFSET_SIZE+INDEX_SIZE-1 :OFFSET_SIZE];
+assign tag = address[ADDR_SIZE-1 :OFFSET_SIZE+INDEX_SIZE];
+
+// Instantiate the MESI FSM
+    mesi_fsm mesi_inst (
+        .clk(clk),
+        .rst(rst),
+        .read_req(read_req),
+        .write_req(write_req),
+        .invalidate(invalidate),
+        .current_state(fsm_state)
+    );
+
+// CACHE INITIALISATION TASK
     task initialize_cache();
         for (int i = 0; i < NUM_SETS; i++) begin
             cache_mem[i].plru_bits = 0; 
@@ -24,14 +36,10 @@ set_st cache_mem[NUM_SETS];
                 cache_mem[i].ways[j].valid = 0;
                 cache_mem[i].ways[j].dirty = 0;
                 cache_mem[i].ways[j].tag = 0;
+                cache_mem[i].ways[j].mesi = I;
+
             end
         end
     endtask
-
-
-assign index = address[OFFSET_SIZE+INDEX_SIZE-1 :OFFSET_SIZE];
-assign tag = address[ADDR_SIZE-1 :OFFSET_SIZE+INDEX_SIZE];
-
-//assign cache_line_out = cache_mem[index].ways[0];
 
 endmodule: cache
