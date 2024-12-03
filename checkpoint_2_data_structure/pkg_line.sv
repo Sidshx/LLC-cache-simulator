@@ -36,8 +36,13 @@ set_st cache_mem[NUM_SETS];
 
 // set_st cache[]; // Array of sets
 
+<<<<<<< HEAD
 
 
 endpackage : pkg_line
  
 
+=======
+endpackage : pkg_line
+ 
+>>>>>>> eb88f7f43c86254088f435e7d7cfb5bdde72c715
