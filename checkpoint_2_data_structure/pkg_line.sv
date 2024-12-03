@@ -1,4 +1,4 @@
-package line;
+package pkg_line;
 
 parameter CACHE_SIZE = 16*1024*1024;
 parameter ADDR_SIZE =32; 
@@ -10,7 +10,8 @@ parameter INDEX_SIZE = $clog2(NUM_SETS);
 parameter TAG_SIZE = ADDR_SIZE - OFFSET_SIZE - INDEX_SIZE;
 
 
-typedef enum bit [1:0] {M, E, S, I} mesi_e;
+    typedef enum bit [1:0] {M = 2'b10, E = 2'b11, S = 2'b01, I = 2'b00} mesi_e;
+
 
 typedef struct packed {
 
@@ -29,12 +30,19 @@ typedef struct {
     line_st ways[N_WAY];  // Array of lines (ways) - this is packed
 } set_st;
 
-
+set_st cache_mem[NUM_SETS];
 
 
 
 // set_st cache[]; // Array of sets
 
+<<<<<<< HEAD
 
-endpackage : line
+
+endpackage : pkg_line
  
+
+=======
+endpackage : pkg_line
+ 
+>>>>>>> eb88f7f43c86254088f435e7d7cfb5bdde72c715
