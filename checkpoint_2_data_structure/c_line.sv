@@ -1,5 +1,5 @@
 `include "pkg_line.sv"
-import line::*;
+import pkg_line::*;
 
 module cache (
 input logic clk,
@@ -19,15 +19,14 @@ assign index = address[OFFSET_SIZE+INDEX_SIZE-1 :OFFSET_SIZE];
 assign tag = address[ADDR_SIZE-1 :OFFSET_SIZE+INDEX_SIZE];
 
 // Instantiate the MESI FSM
-    mesi_fsm mesi_inst (
+    mesi_upd mesi_inst (
         .clk(clk),
         .rst(rst),
-        .read_req(read_req),
-        .write_req(write_req),
-        .invalidate(invalidate),
+        .operation(operation),
+        .address(address),
+        .cache_mem(cache_mem), // Pass cache_mem here
         .current_state(fsm_state)
     );
-
 // CACHE INITIALISATION TASK
     task initialize_cache();
         for (int i = 0; i < NUM_SETS; i++) begin

@@ -1,4 +1,4 @@
-package line;
+package pkg_line;
 
 parameter CACHE_SIZE = 16*1024*1024;
 parameter ADDR_SIZE =32; 
@@ -30,12 +30,14 @@ typedef struct {
     line_st ways[N_WAY];  // Array of lines (ways) - this is packed
 } set_st;
 
-
+set_st cache_mem[NUM_SETS];
 
 
 
 // set_st cache[]; // Array of sets
 
 
-endpackage : line
+
+endpackage : pkg_line
  
+
