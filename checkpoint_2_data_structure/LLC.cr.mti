@@ -1,0 +1,79 @@
+/u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/pkg_line.sv {1 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/pkg_line.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+
+Top level modules:
+	--none--
+
+} {} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_upd.sv {1 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_upd.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+-- Compiling package pkg_bus
+-- Importing package pkg_line
+-- Compiling package mesi_upd_sv_unit
+-- Importing package pkg_bus
+-- Compiling module mesi_upd
+
+Top level modules:
+	mesi_upd
+
+} {} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/c_line.sv {1 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/c_line.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+-- Compiling package c_line_sv_unit
+-- Importing package pkg_line
+-- Compiling module cache
+
+Top level modules:
+	cache
+
+} {} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_fsm.sv {0 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_fsm.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_fsm.sv(4): (vlog-13006) Could not find the package (line).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
+** Error: (vlog-13069) /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/mesi_fsm.sv(11): near "current_state": syntax error, unexpected IDENTIFIER, expecting ')'.
+
+} {4.0 6.0} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_new.sv {1 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_new.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+-- Compiling package tb_new_sv_unit
+-- Importing package pkg_line
+-- Importing package pkg_bus
+-- Compiling module tb_cline
+
+Top level modules:
+	tb_cline
+
+} {} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/pkg_bus.sv {1 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/pkg_bus.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_bus
+-- Importing package pkg_line
+
+Top level modules:
+	--none--
+
+} {} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv {0 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv(3): (vlog-13006) Could not find the package (line).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
+** Error (suppressible): /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv(54): (vlog-2388) 'plru_bits' already declared in this scope (UpdatePLRU) at /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv(54).
+** Error (suppressible): /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv(89): (vlog-2388) 'plru_bits' already declared in this scope (VictimPLRU) at /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_PLRU.sv(89).
+
+} {4.0 5.0} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv {0 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv(2): (vlog-13006) Could not find the package (line).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv(7): (vlog-2730) Undefined variable: 'ADDR_SIZE'.
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv(8): (vlog-2730) Undefined variable: 'INDEX_SIZE'.
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/tb_cline.sv(9): (vlog-2730) Undefined variable: 'TAG_SIZE'.
+
+} {4.0 8.0} {}} /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv {0 {vlog -work work -vopt -sv -stats=none /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv
+QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+-- Compiling package pkg_line
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(5): (vlog-13006) Could not find the package (line).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(7): (vlog-2730) Undefined variable: 'N_WAY'.
+** Error (suppressible): /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(7): (vlog-2388) 'plru_bits' already declared in this scope (UpdatePLRU) at /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(7).
+** Error: /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(25): (vlog-2730) Undefined variable: 'N_WAY'.
+** Error (suppressible): /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(25): (vlog-2388) 'plru_bits' already declared in this scope (VictimPLRU) at /u/satyajit/ECE585-F24/LLC_Cache_G11/checkpoint_2_data_structure/Func.sv(25).
+
+} {4.0 6.0 7.0 8.0} {}}
