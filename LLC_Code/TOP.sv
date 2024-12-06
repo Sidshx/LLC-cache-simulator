@@ -45,7 +45,7 @@ module LLC_Cache;
         int n;
         bit [31:0] address;
 	bit[TAG_SIZE-1 :0] tag;
-	bit[INDEX_SIZE-1 :0] index;
+	// bit[INDEX_SIZE-1 :0] index;
 	automatic bit match_found = 0;
         // Read a line from the file
         if ($fgets(line, file)) begin
@@ -57,21 +57,48 @@ module LLC_Cache;
                		n, address[31:20], address[19:6], address[5:0] );
             `endif
 	//Address Read from trace file and segregated in tag and index bit
-	tag = address[31:20];
-	index = address[19:6];
+	//tag = address[31:20];
+	logic[$clog2(N_WAY)-1:0 ] way_idx; //will return the way
+	//index = address[19:6];
 
-	for (int way_idx = 0; way_idx < 16; way_idx++) begin
-		if(cache_mem[index].ways[way_idx].tag == address[31:20]) begin 
-		match_found = 1;
-		//Cache HIT
-		end
 	
+	case(n)
+	3: begin //Snooped Read Request
+	
+	if(addr_check(cache_mem,address,way_idx))begin 
+	//hit
 	end
-	if (match_found == 0)begin
-		//Cache MISS
+	else begin
+	//Cache Miss
+
 	end
-
-
+	end
+/*
+	if(cache_mem[index].ways[way_idx].mesi == I )begin
+		$display("Cache line in Invalid State, so No action taken.");
+	end
+	else begin
+		$display ("No hit");
+	if (cache_mem[index].ways[way_idx].mesi == M) begin
+            $display("Snooped Read Request: Cache Hit in Modified State."); // BUS WRITE AND HITM 
+            // Provide data to the requester
+            $display("Providing data from Modified state to the requester.");
+            // Transition to Shared (S) state
+            cache_mem[index].ways[way_idx].mesi = S;
+        end else if (cache_mem[index].ways[way_idx].mesi == E) begin
+            $display("Snooped Read Request: Cache Hit in Exclusive State.");
+            // Provide data to the requester
+            $display("Providing data from Exclusive state to the requester.");
+            // Transition to Shared (S) state
+            cache_mem[index].ways[way_idx].mesi = S;
+        end else if (cache_mem[index].ways[way_idx].mesi == S) begin
+            $display("Snooped Read Request: Cache Hit in Shared State.");
+            // Data is already shared, no state change needed
+            $display("Providing data from Shared state to the requester.");
+        end
+    end
+*/
+endcase 
 
 
             // Process each trace event based on `n` value
