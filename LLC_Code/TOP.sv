@@ -1,38 +1,16 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
-<<<<<<< HEAD
-// Company: 
-// Engineer: Aakash Siddharth | Satyajit Deokar | Siddesh Patil | Rajani Kallur
-=======
-// 
->>>>>>> ba8d507d55913c9a2131c8e2e0f8c3ba5f733e23
-=======
->>>>>>> 3a67d6dbe4d8e612cf2fff6737e1ea59a0258164
-// 
-// Create Date: 02.11.2024 12:03:05
-// Design Name: 
-// Module Name: MSD_Cache_parser
-// Project Name: MSD_Last Level Cache using MESI Protocol
-// Target Devices: 
-// Tool Versions: 
-// Description: Working code to read and parse an input trace file including Conditional Compilation
-// (the name of which is specified by the user) with correct default if none specified
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments: l26: changed path
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
-module MSD_Cache_parser;
+`include "pkg_line.sv"
+`include "pkg_bus.sv"
+import pkg_line::*;
+import pkg_bus::*;
+module LLC_Cache;
   // Define the default trace file name
   string trace_filename = "rwims.din"; 	// changed path
   int file;
   string line;
-
+//Initializing
+  set_st cache_mem[NUM_SETS];
+  mesi_e fsm_state;
 
   initial begin
     `ifdef DEBUG
@@ -51,7 +29,7 @@ module MSD_Cache_parser;
     end
 
     // Open the trace file
-    `ifdef FILE_IO
+
       file = $fopen(trace_filename, "r");    	// Added else condition 
       if (file) begin
         `ifdef DEBUG
@@ -60,22 +38,41 @@ module MSD_Cache_parser;
       end else begin
         $fatal("Error opening file: %s \n", trace_filename);
       end 
-
+	// Set all bits to 0 and MESI to Invalid
+      	initialize_cache();
       // Read and parse the file line-by-line
       while (!$feof(file)) begin
         int n;
         bit [31:0] address;
-      
-
+	bit[TAG_SIZE-1 :0] tag;
+	bit[INDEX_SIZE-1 :0] index;
+	automatic bit match_found = 0;
         // Read a line from the file
         if ($fgets(line, file)) begin
           // Parse the line format "n address" where n is a number and address is a hex
-          if ($sscanf(line, "%d %h", n, address) == 2) begin
+          if ($sscanf(line, "%d %h %h", n, address) == 2) begin
           //  address1 = decode_address(address);
             `ifdef DEBUG
               $display("Parsed: n = %0d, \nAddress: Tag[31:20] = %h, Index[19:6] = %h , Offset[5:0] = %h",
-                        n, address[31:20], address[19:6], address[5:0] );
+               		n, address[31:20], address[19:6], address[5:0] );
             `endif
+	//Address Read from trace file and segregated in tag and index bit
+	tag = address[31:20];
+	index = address[19:6];
+
+	for (int way_idx = 0; way_idx < 16; way_idx++) begin
+		if(cache_mem[index].ways[way_idx].tag == address[31:20]) begin 
+		match_found = 1;
+		//Cache HIT
+		end
+	
+	end
+	if (match_found == 0)begin
+		//Cache MISS
+	end
+
+
+
 
             // Process each trace event based on `n` value
             case (n)
@@ -101,10 +98,7 @@ module MSD_Cache_parser;
       `ifdef DEBUG
         $display("Finished reading from %s.", trace_filename);
       `endif
-    `else
-      $display("File I/O functionality disabled. Define FILE_IO to enable.");
-    `endif
+    
   end
 
 endmodule
-
