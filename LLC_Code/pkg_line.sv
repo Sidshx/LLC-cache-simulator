@@ -32,7 +32,27 @@ typedef struct {
 
 set_st cache_mem[NUM_SETS];
 
+function automatic bit addr_check (
+    ref set_st cache_mem[NUM_SETS],  // Cache memory passed by reference
+    input bit [31:0] address,              // Address to check
+    output logic[$clog2(N_WAY)-1:0 ] way_idx                     // Way index where match happens
+	);
 
+bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address
+    way_idx = 'z;  // Default value when no match is found
+
+    // Loop through the ways in the set
+    for (int i = 0; i < 16; i++) begin
+        if ((cache_mem[index].ways[i].mesi != I) && 
+		(cache_mem[index].ways[i].tag == address[31:20])) begin
+            way_idx = i;  // Store the way index where the match occurs
+            return 1'b1;   // Return 1 if a match is found
+        end
+    end
+
+    // If no match found
+    return 1'b0;  // Return 0 if no match was found
+endfunction: addr_check
 
 // set_st cache[]; // Array of sets
 
