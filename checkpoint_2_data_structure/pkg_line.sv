@@ -31,8 +31,6 @@ typedef struct {
 
 set_st cache_mem[NUM_SETS];
 
-
-
 // set_st cache[]; // Array of sets
 
 
