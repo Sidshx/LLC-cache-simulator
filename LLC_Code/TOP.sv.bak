@@ -124,7 +124,6 @@ module LLC_Cache;
         // Cache hit
         $display("Cache hit for address %h", address);
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
-	  MessageToCache(SENDLINE,address);
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
@@ -141,7 +140,7 @@ module LLC_Cache;
 
         // Update cache with new data
         cache_mem[index].ways[way_idx].tag = address[31:20];
-
+        cache_mem[index].ways[way_idx].mesi = E; // Set state to Exclusive
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
         // Get snoop result for the new address
@@ -154,50 +153,26 @@ module LLC_Cache;
             cache_mem[index].ways[way_idx].mesi = E;
         end
 
-        // Notify L1
-        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+        // Notify L1 of eviction
+        MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
 
+	
 
-1: begin
-    $display("Write request from L1 data cache, Address: %h\n", address);
 
-    if (addrcheck(cache_mem, address, way_idx)) begin
-        // Cache hit
-        $display("Cache hit for address %h", address);
-        UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
-            $display("Victim is in Modified state. Performing BusWrite.");
-            BusOperation(INVALIDATE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
-            cache_mem[index].ways[way_idx].mesi = M;
-        end else begin
-            cache_mem[index].ways[way_idx].mesi = M;
-        end
 
-    end else begin
-        $display("Cache miss for address %h", address);
 
-        victim_idx = VictimPLRU(cache_mem[index].plru_bits);
 
-        if (cache_mem[index].ways[way_idx].mesi == M) begin
-            $display("Victim is in Modified state. Performing BusWrite.");
-            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
-        end
 
-        BusOperation(RWIM, address, NormalMode);
-        cache_mem[index].ways[way_idx].tag = address[31:20];
-        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-    end
-end
 
+              1: $display("Write request from L1 data cache, Address: %h\n", address);
 
               2: $display("Read request from L1 instruction cache, Address: %h\n", address);
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
               5: $display("Snooped read with intent to modify request, Address: %h\n", address);
-
               
 6: begin
     $display("Snooped invalidate command, Address: %h\n", address);
@@ -214,13 +189,13 @@ end
 	//MessageToCache(GETLINE,address);
 	//MessageToCache(INVALIDATELINE,address);
 	//BusOperation(WRITE, address,1 );
-	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
+	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state")
 	cache_mem[index].ways[way_idx].mesi = I;
 	end
 
 	else if ((cache_mem[index].ways[way_idx].mesi == E)) begin
 	//PutSnoopResult(address, HIT);
-	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in E state");
+	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in E state")
 	cache_mem[index].ways[way_idx].mesi = I;
 	end
 	end
@@ -230,27 +205,8 @@ end
 	//PutSnoopResult(address, NOHIT);
 end
 end
-                         
-
-		8: begin
-                    $display("Clear the cache and reset all state.");
-                    initialize_cache(); // Clear the cache
-                    `ifdef DEBUG
-                      $display("Cache cleared and all states reset.");
-                    `endif
-                end
-		9: begin // Print contents and state of each valid cache line
-    for (int i = 0; i < NUM_SETS; i++) begin
-        for (int j = 0; j < N_WAY; j++) begin
-            if (cache_mem[i].ways[j].mesi != I) begin
-                $display("Set: %0d, Way: %0d, MESI: %s, Tag: %h", 
-                         i, j, cache_mem[i].ways[j].mesi, cache_mem[i].ways[j].tag);
-            end
-        end
-    end
-end
-
-
+              8: $display("Clear the cache and reset all state\n");
+              9: $display("Print contents and state of each valid cache line (doesn't end simulation!)\n");
               default: $display("Unknown trace event: %d\n", n);
             endcase
           end else begin
