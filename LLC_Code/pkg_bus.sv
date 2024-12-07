@@ -34,7 +34,7 @@ package pkg_bus;
     } l2_l1_msg_e;
 
     // Functions
-    function automatic snoop_result_e BusOperation(
+    function automatic void BusOperation(
         input bus_operation_e busop,      // Type of bus operation (READ, WRITE, etc.)
         input logic [31:0] addr,          // Memory address involved in the operation
         input bit NormalMode              // Flag to enable or disable debug printing
@@ -50,7 +50,8 @@ package pkg_bus;
             $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop, addr, SnoopResult);
         end
 
-        return SnoopResult;
+//        return SnoopResult;
+
     endfunction
 
     function void PutSnoopResult(
