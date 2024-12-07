@@ -41,7 +41,7 @@ function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits);
    int b = 0;  // Index for the PLRU 
    bit [3:0] Victim_Way = 0;  // Victim way
    int i;
-
+    
     // Traverse the PLRU tree to find the victim way
     for (i = 0; i < $clog2(N_WAY); i++) begin
         // Update the victim way based on the current PLRU bit

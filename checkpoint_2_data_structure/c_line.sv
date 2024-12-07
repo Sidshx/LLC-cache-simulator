@@ -17,12 +17,13 @@ mesi_e fsm_state;
 
 assign index = address[OFFSET_SIZE+INDEX_SIZE-1 :OFFSET_SIZE];
 assign tag = address[ADDR_SIZE-1 :OFFSET_SIZE+INDEX_SIZE];
-
+logic copy = 1;
 // Instantiate the MESI FSM
     mesi_upd mesi_inst (
         .clk(clk),
         .rst(rst),
-        .operation(operation),
+        .operation(),
+	.copy(copy),
         .address(address),
         .cache_mem(cache_mem), // Pass cache_mem here
         .current_state(fsm_state)
