@@ -3,7 +3,7 @@
 package pkg_plru;
 import pkg_line::*;
 
-function automatic void UpdatePLRU(ref logic [N_WAY-2:0] plru_bits, int way);
+function automatic void UpdatePLRU(ref logic [N_WAY-2:0] plru_bits, input int way);
 
 bit [3:0]w = way;
 int PLRU_Tree;  // Start at the root of the PLRU tree
@@ -36,7 +36,7 @@ end
 */
 endfunction
 
-function automatic int VictimPLRU(input logic [N_WAY-2:0] plru_bits);
+function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits);
 
    int b = 0;  // Index for the PLRU 
    bit [3:0] Victim_Way = 0;  // Victim way
