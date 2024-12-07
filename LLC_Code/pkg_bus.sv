@@ -51,6 +51,7 @@ package pkg_bus;
         end
 
 //        return SnoopResult;
+
     endfunction
 
     function void PutSnoopResult(

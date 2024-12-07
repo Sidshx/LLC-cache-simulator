@@ -43,22 +43,22 @@ module tb_cline;
         address = 32'h0000_1000;
         operation = READ;
         perform_operation(address);
-
+#10;
         // Test 2: Simulate a write operation (Write transition to M state)
         address = 32'h0000_2000;
         operation = WRITE;
         perform_operation(address);
-
+#10;
         // Test 3: Simulate invalidation (I state)
         address = 32'hFFFF_8000;
         operation = INVALIDATE;
         perform_operation(address);
-
+#10;
         // Test 4: Test transition from Shared to Exclusive (with snooping)
         address = 32'h0000_3000;
         operation = READ;
         perform_operation(address);
-
+#10;
         // Finish the simulation
         $stop;
     end
