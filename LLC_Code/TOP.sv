@@ -173,7 +173,38 @@ end
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
               5: $display("Snooped read with intent to modify request, Address: %h\n", address);
-              6: $display("Snooped invalidate command, Address: %h\n", address);
+              
+6: begin
+    $display("Snooped invalidate command, Address: %h\n", address);
+
+	if(addr_check(cache_mem,address,way_idx))begin
+	//Cache Hit
+		if((cache_mem[index].ways[way_idx].mesi == S))begin
+		PutSnoopResult(address, HIT);
+		cache_mem[index].ways[way_idx].mesi = I;
+		end
+
+	else if ((cache_mem[index].ways[way_idx].mesi == M))begin
+	//PutSnoopResult(address, HITM);
+	//MessageToCache(GETLINE,address);
+	//MessageToCache(INVALIDATELINE,address);
+	//BusOperation(WRITE, address,1 );
+	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
+	cache_mem[index].ways[way_idx].mesi = I;
+	end
+
+	else if ((cache_mem[index].ways[way_idx].mesi == E)) begin
+	//PutSnoopResult(address, HIT);
+	$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in E state");
+	cache_mem[index].ways[way_idx].mesi = I;
+	end
+	end
+
+	else begin
+	//Cache Miss
+	//PutSnoopResult(address, NOHIT);
+end
+end
               8: $display("Clear the cache and reset all state\n");
               9: $display("Print contents and state of each valid cache line (doesn't end simulation!)\n");
               default: $display("Unknown trace event: %d\n", n);
