@@ -162,25 +162,38 @@ module LLC_Cache;
 end
 
 
-              1: begin
+1: begin
+    $display("Write request from L1 data cache, Address: %h\n", address);
 
-$display("Write request from L1 data cache, Address: %h\n", address);
-if (addrcheck(cache_mem, address, way_idx)) begin
+    if (addrcheck(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
-  	cache_mem[index].ways[way_idx].mesi = M;
-	
 
-  end else begin
+        if (cache_mem[index].ways[way_idx].mesi == S) begin
+            $display("Victim is in Modified state. Performing BusWrite.");
+            BusOperation(INVALIDATE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+            cache_mem[index].ways[way_idx].mesi = M;
+        end else begin
+            cache_mem[index].ways[way_idx].mesi = M;
+        end
 
+    end else begin
+        $display("Cache miss for address %h", address);
 
+        victim_idx = VictimPLRU(cache_mem[index].plru_bits);
 
+        if (cache_mem[index].ways[way_idx].mesi == M) begin
+            $display("Victim is in Modified state. Performing BusWrite.");
+            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+        end
 
-
-
+        BusOperation(RWIM, address, NormalMode);
+        cache_mem[index].ways[way_idx].tag = address[31:20];
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+    end
 end
-end
+
               2: $display("Read request from L1 instruction cache, Address: %h\n", address);
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
