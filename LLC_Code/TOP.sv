@@ -124,6 +124,9 @@ module LLC_Cache;
         // Cache hit
         $display("Cache hit for address %h", address);
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+	MessageToCache(SENDLINE,address);
+
+
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
@@ -140,7 +143,7 @@ module LLC_Cache;
 
         // Update cache with new data
         cache_mem[index].ways[way_idx].tag = address[31:20];
-        cache_mem[index].ways[way_idx].mesi = E; // Set state to Exclusive
+//        cache_mem[index].ways[way_idx].mesi = E; // Set state to Exclusive
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
         // Get snoop result for the new address
@@ -154,21 +157,30 @@ module LLC_Cache;
         end
 
         // Notify L1 of eviction
-        MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
 
+
+              1: begin
+
+$display("Write request from L1 data cache, Address: %h\n", address);
+if (addrcheck(cache_mem, address, way_idx)) begin
+        // Cache hit
+        $display("Cache hit for address %h", address);
+        UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+  	cache_mem[index].ways[way_idx].mesi = M;
 	
 
+  end else begin
 
 
 
 
 
 
-
-              1: $display("Write request from L1 data cache, Address: %h\n", address);
-
+end
+end
               2: $display("Read request from L1 instruction cache, Address: %h\n", address);
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
