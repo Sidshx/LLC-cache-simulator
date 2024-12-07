@@ -1,6 +1,9 @@
 `timescale 1ns / 1ps
 `include "pkg_line.sv"
 `include "pkg_bus.sv"
+`include "pkg_plru.sv"
+
+import pkg_plru::*;
 import pkg_line::*;
 import pkg_bus::*;
 module LLC_Cache;
@@ -11,8 +14,18 @@ module LLC_Cache;
 //Initializing
   set_st cache_mem[NUM_SETS];
   mesi_e fsm_state;
+  snoop_result_e snoop_result;
 
   initial begin
+	int n;
+        bit [31:0] address;
+	bit[TAG_SIZE-1 :0] tag;
+	bit[INDEX_SIZE-1 :0] index;
+	automatic bit match_found = 0;
+	int way_idx; 
+	int victim_idx; // Declare way_idx at the top
+//        logic victim_idx;                    // Declare victim_idx at the top
+
     `ifdef DEBUG
       $display("Working code to read and parse an input trace file (the name of which is specified by the user) with correct default if none specified");
     `endif
@@ -42,11 +55,11 @@ module LLC_Cache;
       	initialize_cache();
       // Read and parse the file line-by-line
       while (!$feof(file)) begin
-        int n;
-        bit [31:0] address;
-	bit[TAG_SIZE-1 :0] tag;
-	// bit[INDEX_SIZE-1 :0] index;
-	automatic bit match_found = 0;
+//        int n;
+//        bit [31:0] address;
+//	bit[TAG_SIZE-1 :0] tag;
+//	bit[INDEX_SIZE-1 :0] index;
+//	automatic bit match_found = 0;
         // Read a line from the file
         if ($fgets(line, file)) begin
           // Parse the line format "n address" where n is a number and address is a hex
@@ -59,20 +72,20 @@ module LLC_Cache;
 	//Address Read from trace file and segregated in tag and index bit
 	//tag = address[31:20];
 	logic[$clog2(N_WAY)-1:0 ] way_idx; //will return the way
-	//index = address[19:6];
+	index = address[19:6];
 
 	
-	case(n)
-	3: begin //Snooped Read Request
-	
-	if(addr_check(cache_mem,address,way_idx))begin 
-	//hit
-	end
-	else begin
-	//Cache Miss
-
-	end
-	end
+//	case(n)
+//	3: begin //Snooped Read Request
+//	
+//	if(addr_check(cache_mem,address,way_idx))begin 
+//	//hit
+//	end
+//	else begin
+//	//Cache Miss
+//
+//	end
+//	end
 /*
 	if(cache_mem[index].ways[way_idx].mesi == I )begin
 		$display("Cache line in Invalid State, so No action taken.");
@@ -98,13 +111,64 @@ module LLC_Cache;
         end
     end
 */
-endcase 
+//endcase 
 
 
             // Process each trace event based on `n` value
             case (n)
-              0: $display("Read request from L1 data cache, Address: %h \n", address);
+0: begin
+    $display("Read request from L1 data cache, Address: %h \n", address);
+
+
+    if (addrcheck(cache_mem, address, way_idx)) begin
+        // Cache hit
+        $display("Cache hit for address %h", address);
+        UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+    end else begin
+        // Cache miss
+        $display("Cache miss for address %h", address);
+
+        victim_idx = VictimPLRU(cache_mem[index].plru_bits); // Find victim way
+        if (cache_mem[index].ways[way_idx].mesi == M) begin
+            $display("Victim is in Modified state. Performing BusWrite.");
+            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+
+        end 
+
+        // Perform BusRead operation
+        BusOperation(READ, address, NormalMode);
+
+        // Update cache with new data
+        cache_mem[index].ways[way_idx].tag = address[31:20];
+        cache_mem[index].ways[way_idx].mesi = E; // Set state to Exclusive
+        UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
+
+        // Get snoop result for the new address
+        snoop_result = GetSnoopResult(address); 
+        if (snoop_result == HIT || snoop_result == HITM) begin
+            $display("Snoop response HIT or HITM. Transitioning to Shared state.");
+            cache_mem[index].ways[way_idx].mesi = S;
+        end else begin
+            $display("No snoop hit. Transitioning to Exclusive state.");
+            cache_mem[index].ways[way_idx].mesi = E;
+        end
+
+        // Notify L1 of eviction
+        MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+    end
+end
+
+	
+
+
+
+
+
+
+
+
               1: $display("Write request from L1 data cache, Address: %h\n", address);
+
               2: $display("Read request from L1 instruction cache, Address: %h\n", address);
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
