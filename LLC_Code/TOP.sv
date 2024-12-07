@@ -124,6 +124,7 @@ module LLC_Cache;
         // Cache hit
         $display("Cache hit for address %h", address);
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+	  MessageToCache(SENDLINE,address);
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
@@ -140,7 +141,7 @@ module LLC_Cache;
 
         // Update cache with new data
         cache_mem[index].ways[way_idx].tag = address[31:20];
-        cache_mem[index].ways[way_idx].mesi = E; // Set state to Exclusive
+
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
         // Get snoop result for the new address
@@ -153,27 +154,50 @@ module LLC_Cache;
             cache_mem[index].ways[way_idx].mesi = E;
         end
 
-        // Notify L1 of eviction
-        MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+        // Notify L1
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
 
-	
 
+1: begin
+    $display("Write request from L1 data cache, Address: %h\n", address);
 
+    if (addrcheck(cache_mem, address, way_idx)) begin
+        // Cache hit
+        $display("Cache hit for address %h", address);
+        UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
+        if (cache_mem[index].ways[way_idx].mesi == S) begin
+            $display("Victim is in Modified state. Performing BusWrite.");
+            BusOperation(INVALIDATE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+            cache_mem[index].ways[way_idx].mesi = M;
+        end else begin
+            cache_mem[index].ways[way_idx].mesi = M;
+        end
 
+    end else begin
+        $display("Cache miss for address %h", address);
 
+        victim_idx = VictimPLRU(cache_mem[index].plru_bits);
 
+        if (cache_mem[index].ways[way_idx].mesi == M) begin
+            $display("Victim is in Modified state. Performing BusWrite.");
+            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+        end
 
+        BusOperation(RWIM, address, NormalMode);
+        cache_mem[index].ways[way_idx].tag = address[31:20];
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+    end
+end
 
-              1: $display("Write request from L1 data cache, Address: %h\n", address);
 
               2: $display("Read request from L1 instruction cache, Address: %h\n", address);
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
               5: $display("Snooped read with intent to modify request, Address: %h\n", address);
-<<<<<<< HEAD
+
               
 6: begin
     $display("Snooped invalidate command, Address: %h\n", address);
@@ -206,37 +230,7 @@ end
 	//PutSnoopResult(address, NOHIT);
 end
 end
-              8: $display("Clear the cache and reset all state\n");
-              9: $display("Print contents and state of each valid cache line (doesn't end simulation!)\n");
-=======
-		
-		6: begin // Snoop Invalidate Command
-		    $display("Processing Snoop Invalidate Command using pkg_bus...");
-		
-		    for (int i = 0; i < NUM_SETS; i++) begin
-		        for (int j = 0; j < N_WAY; j++) begin
-		            // Check if the cache line is valid (not Invalid)
-		            if (cache_mem[i].ways[j].mesi != I) begin
-		                case (cache_mem[i].ways[j].mesi)
-		                    M: begin
-		                        // Use pkg_bus function to handle invalidate
-		                        pkg_bus::invalidate_line(i, j, M);
-		                        cache_mem[i].ways[j].mesi = I; // Update state
-		                    end
-		                    E: begin
-		                        pkg_bus::invalidate_line(i, j, E);
-		                        cache_mem[i].ways[j].mesi = I; // Update state
-		                    end
-		                    S: begin
-		                        pkg_bus::invalidate_line(i, j, S);
-		                        cache_mem[i].ways[j].mesi = I; // Update state
-		                    end
-		                endcase
-		            end
-		        end
-		    end
-		end
-                              
+                         
 
 		8: begin
                     $display("Clear the cache and reset all state.");
@@ -256,7 +250,7 @@ end
     end
 end
 
->>>>>>> 9d7601d2a22eba19fb2c7a5672f5ce26a203e0b9
+
               default: $display("Unknown trace event: %d\n", n);
             endcase
           end else begin
