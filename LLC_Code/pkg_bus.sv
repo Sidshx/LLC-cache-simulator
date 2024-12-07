@@ -1,7 +1,10 @@
+`include "pkg_line.sv"
+
 package pkg_bus;
 
     // Import definitions from other packages
     import pkg_line::*; // Assumes set_st, NUM_SETS, INDEX_SIZE, TAG_SIZE are in pkg_cache
+    logic NormalMode;
 
     // Enumerations
     typedef enum logic [2:0] {
@@ -23,53 +26,68 @@ package pkg_bus;
         HITM  = 2'b10   // Hit to Modified
     } snoop_result_e;
 
+    typedef enum logic [2:0] {
+        GETLINE       = 3'b001, // Request data for modified line in L1
+        SENDLINE      = 3'b010, // Send requested cache line to L1
+        INVALIDATELINE = 3'b011, // Invalidate a line in L1
+        EVICTLINE     = 3'b100  // Evict a line from L1
+    } l2_l1_msg_e;
+
     // Functions
-    function automatic snoop_result_e BusOperation(
-        input bus_operation_e Busop,      // Type of bus operation (READ, WRITE, etc.)
-        input logic [31:0] Address,       // Memory address involved in the operation
+    function automatic void BusOperation(
+        input bus_operation_e busop,      // Type of bus operation (READ, WRITE, etc.)
+        input logic [31:0] addr,          // Memory address involved in the operation
         input bit NormalMode              // Flag to enable or disable debug printing
     );
 
         snoop_result_e SnoopResult;
 
         // Call GetSnoopResult with Address and cache memory
-        SnoopResult = GetSnoopResult(Address, cache_mem);
+        SnoopResult = GetSnoopResult(addr);
 
         // Print debug information if NormalMode is enabled
         if (NormalMode) begin
-            $display("Busop: %0d, Address: %h, Snoop Result: %0d", Busop, Address, SnoopResult);
+            $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop, addr, SnoopResult);
         end
 
-        return SnoopResult;
+    endfunction
+
+    function void PutSnoopResult(
+        input logic [31:0] addr,          // Address to report
+        input snoop_result_e SnoopResult  // Snoop result to report
+    );
+        if (NormalMode) begin
+            $display("SnoopResult: Address %h, SnoopResult: %0d", addr, SnoopResult);
+        end
+    endfunction
+
+    function void MessageToCache(
+        input l2_l1_msg_e msg,            // Bus operation type (e.g., READ, WRITE)
+        input logic [31:0] addr          // Memory address associated with the operation
+    );
+        if (NormalMode) begin
+            $display("L2: %0d %h", msg, addr);
+        end
     endfunction
 
     function automatic snoop_result_e GetSnoopResult(
-        input logic [31:0] Address,        // Address to check
-        input set_st cache_mem[NUM_SETS]  // Cache memory array
+        input logic [31:0] addr          // Address to check
     );
+        // Extract the two least significant bits (LSBs) of the address
+        logic [1:0] lsb = addr[1:0];
+        
+        // Declare the result
+        snoop_result_e result;
 
-        logic [INDEX_SIZE-1:0] index;       // Index derived from the address
-        logic [TAG_SIZE-1:0] tag;           // Tag derived from the address
-        snoop_result_e result = NOHIT;      // Default to NOHIT
+        // Determine the snoop result based on the LSBs
+        case (lsb)
+            2'b00: result = HIT;
+            2'b01: result = HITM;
+            default: result = NOHIT; // Covers 2'b10 and 2'b11
+        endcase
 
-        // Derive the index and tag from the address
-        index = Address[OFFSET_SIZE + INDEX_SIZE - 1 : OFFSET_SIZE];
-        tag = Address[31 : OFFSET_SIZE + INDEX_SIZE];
-
-        // Check the cache lines in the indexed set
-        for (int i = 0; i < N_WAY; i++) begin
-            if (cache_mem[index].ways[i].mesi != I && // Valid line
-                cache_mem[index].ways[i].tag == tag) begin // Tag match
-                if (cache_mem[index].ways[i].mesi == M) begin
-                    result = HITM; // Modified line found
-                    return result; // No need to continue
-                end else begin
-                    result = HIT; // Line found but not modified
-                end
-            end
-        end
-
-        return result; // Return HIT, HITM, or NOHIT
+        return result; // Return the determined snoop result
     endfunction
 
 endpackage : pkg_bus
+

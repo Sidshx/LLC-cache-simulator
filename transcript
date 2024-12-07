@@ -14,57 +14,53 @@
 # //  18 U.S.C. Section 1905.
 # //
 # Loading project LLC
-# Compile of TOP.sv failed with 1 errors.
-# Compile of TOP.sv failed with 2 errors.
-# Compile of TOP.sv was successful.
-# Compile of TOP.sv failed with 1 errors.
-# Compile of TOP.sv was successful.
-# Compile of TOP.sv was successful.
-# Compile of c_line.sv was successful.
-# Compile of TOP.sv was successful.
-# Compile of TOP.sv failed with 8 errors.
-# Compile of TOP.sv failed with 8 errors.
-# Compile of TOP.sv failed with 8 errors.
-# Compile of pkg_bus.sv failed with 1 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_bus.sv failed with 1 errors.
-# Compile of pkg_bus.sv was successful.
-# Compile of TOP.sv failed with 6 errors.
-# Compile of TOP.sv failed with 1 errors.
-# Compile of TOP.sv was successful.
-# Compile of TOP.sv was successful.
-# Compile of pkg_line.sv failed with 4 errors.
-# Compile of pkg_line.sv failed with 4 errors.
-# Compile of pkg_line.sv failed with 3 errors.
-# Compile of pkg_line.sv failed with 1 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_line.sv failed with 1 errors.
-# Compile of pkg_line.sv failed with 1 errors.
-# Error opening /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/(vlog-13069) /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/pkg_line.sv
-# Path name '/u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/(vlog-13069) /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/pkg_line.sv' doesn't exist.
-# Compile of TOP.sv failed with 18 errors.
-# Compile of pkg_line.sv failed with 1 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of TOP.sv failed with 6 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_line.sv failed with 2 errors.
-# Compile of pkg_line.sv failed with 1 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of TOP.sv failed with 6 errors.
-# Compile of TOP.sv failed with 17 errors.
-# Compile of TOP.sv failed with 17 errors.
-# Compile of TOP.sv failed with 4 errors.
-# Compile of TOP.sv failed with 3 errors.
-# Compile of TOP.sv failed with 2 errors.
-# Error opening /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/(vlog-13069) /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/TOP.sv
-# Path name '/u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/(vlog-13069) /u/satyajit/ECE585-F24/LLC_Cache_G11/LLC_Code/TOP.sv' doesn't exist.
-# Compile of TOP.sv was successful.
-# Compile of TOP.sv was successful.
 # Compile of c_line.sv was successful.
 # Compile of pkg_bus.sv was successful.
 # Compile of pkg_line.sv was successful.
-# Compile of TOP.sv was successful.
-# 4 compiles, 0 failed with no errors.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of c_line.sv was successful.
+# Compile of pkg_bus.sv was successful.
+# Compile of pkg_line.sv was successful.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of TOP.sv failed with 2 errors.
+# Compile of TOP.sv was successful with warnings.
+# Compile of c_line.sv was successful.
+# Compile of pkg_bus.sv failed with 1 errors.
+# Compile of pkg_line.sv was successful.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv failed with 1 errors.
+# 5 compiles, 2 failed with 2 errors.
+# Compile of pkg_bus.sv was successful.
+# Compile of pkg_bus.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of c_line.sv was successful.
+# Compile of pkg_bus.sv was successful with warnings.
+# Compile of pkg_line.sv was successful.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of c_line.sv was successful.
+# Compile of pkg_bus.sv was successful.
+# Compile of pkg_line.sv was successful.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# 5 compiles, 0 failed with no errors.
+# Compile of TOP.sv failed with 1 errors.
+# Compile of TOP.sv was successful with warnings.
+# Compile of TOP.sv was successful with warnings.
+# Compile of c_line.sv was successful.
+# Compile of pkg_bus.sv was successful.
+# Compile of pkg_line.sv was successful.
+# Compile of pkg_plru.sv was successful.
+# Compile of TOP.sv was successful with warnings.
+# 5 compiles, 0 failed with no errors.

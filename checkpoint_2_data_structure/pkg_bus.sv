@@ -72,4 +72,56 @@ package pkg_bus;
         return result; // Return HIT, HITM, or NOHIT
     endfunction
 
+
+
+typedef enum logic [1:0] {
+    GETLINE        = 2'b01,  // Request data for modified line in L1
+    SENDLINE       = 2'b10,  // Send requested cache line to L1
+    INVALIDATELINE = 2'b11,  // Invalidate a line in L1
+    EVICTLINE      = 2'b00   // Evict a line from L1
+} l2_l1_message_e;
+
+function automatic void PutSnoopResult(
+    input logic [31:0] Address,        // Address for the snoop result
+    input snoop_result_e SnoopResult, // Snoop result value
+    input bit NormalMode              // Debug mode flag
+);
+    if (NormalMode) begin
+        $display("SnoopResult: Address = %h, SnoopResult = %0d", Address, SnoopResult);
+    end
+endfunction
+
+
+function automatic void MessageToCache(
+    input l2_l1_message_e Message,    // Message type (e.g., `GETLINE`, `SENDLINE`)
+    input logic [31:0] Address,       // Address related to the message
+    input bit NormalMode              // Debug mode flag
+);
+    if (NormalMode) begin
+        $display("L2: Message = %0d, Address = %h", Message, Address);
+    end
+endfunction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 endpackage : pkg_bus
+
+
+
+
+
+
