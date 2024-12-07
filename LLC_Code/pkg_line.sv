@@ -64,11 +64,11 @@ endfunction: addr_check
 
   // Functions to increment counters
   function void increment_hit();
-    proc_cache_hits++;
+    cache_hits++;
   endfunction: increment_hit
 
   function void increment_miss();
-    proc_cache_misses++;
+    cache_misses++;
   endfunction: increment_miss
 
   function void increment_read();
