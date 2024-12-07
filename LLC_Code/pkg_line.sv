@@ -62,6 +62,12 @@ endfunction: addr_check
   int cache_reads = 0;   // Snooping cache hits
   int cache_write = 0; // Snooping cache misses
 
+  int cache_hit_ratio = 0;
+
+	function void hit_ratio();
+		$display ("Cache hit ratio = %0d ", (cache_hits / (cache_hits + cache_misses)));
+	endfunction : hit_ratio
+
   // Functions to increment counters
   function void increment_hit();
     cache_hits++;

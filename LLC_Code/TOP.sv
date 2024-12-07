@@ -121,11 +121,14 @@ module LLC_Cache;
     if (addrcheck(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
+	increment_hit();
+
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 	  MessageToCache(SENDLINE,address);
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
+	increment_miss();
 
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
         if (cache_mem[index].ways[way_idx].mesi == M) begin
@@ -164,6 +167,8 @@ end
     if (addrcheck(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
+	increment_hit();
+
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
 	        if (cache_mem[index].ways[way_idx].mesi == S) begin
@@ -176,7 +181,7 @@ end
 
     end else begin
         $display("Cache miss for address %h", address);
-
+	increment_miss();
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways);
 
         if (cache_mem[index].ways[way_idx].mesi == M) begin
@@ -194,6 +199,8 @@ end
               2: begin $display("Read request from L1 instruction cache, Address: %h\n", address); 
 	if (addr_check(cache_mem, address, way_idx)) begin 
 	//Cache Hit
+	increment_hit();
+	
 		    if (cache_mem[index].ways[way_idx].mesi == S) begin
 	                MessageToCache(SENDLINE, address); 
 	            end 
@@ -203,6 +210,7 @@ end
 	end
 	 else begin 
 	//Cache Miss
+	increment_miss();
 	victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
 	BusOperation(READ, address, 1);
 		if (HIT == GetSnoopResult(address)) begin
@@ -343,7 +351,7 @@ end
               default: begin $display("Unknown trace event: %d\n", n);
 end
             endcase
-
+hit_ratio();
           end else begin
             $display("Invalid line format: %s", line);
           end
