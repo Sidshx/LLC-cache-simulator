@@ -198,9 +198,53 @@ end
               3: $display("Snooped read request, Address: %h\n", address);
               4: $display("Snooped write request, Address: %h\n", address);
               5: $display("Snooped read with intent to modify request, Address: %h\n", address);
-              6: $display("Snooped invalidate command, Address: %h\n", address);
-              8: $display("Clear the cache and reset all state\n");
-              9: $display("Print contents and state of each valid cache line (doesn't end simulation!)\n");
+		
+		6: begin // Snoop Invalidate Command
+		    $display("Processing Snoop Invalidate Command using pkg_bus...");
+		
+		    for (int i = 0; i < NUM_SETS; i++) begin
+		        for (int j = 0; j < N_WAY; j++) begin
+		            // Check if the cache line is valid (not Invalid)
+		            if (cache_mem[i].ways[j].mesi != I) begin
+		                case (cache_mem[i].ways[j].mesi)
+		                    M: begin
+		                        // Use pkg_bus function to handle invalidate
+		                        pkg_bus::invalidate_line(i, j, M);
+		                        cache_mem[i].ways[j].mesi = I; // Update state
+		                    end
+		                    E: begin
+		                        pkg_bus::invalidate_line(i, j, E);
+		                        cache_mem[i].ways[j].mesi = I; // Update state
+		                    end
+		                    S: begin
+		                        pkg_bus::invalidate_line(i, j, S);
+		                        cache_mem[i].ways[j].mesi = I; // Update state
+		                    end
+		                endcase
+		            end
+		        end
+		    end
+		end
+                              
+
+		8: begin
+                    $display("Clear the cache and reset all state.");
+                    initialize_cache(); // Clear the cache
+                    `ifdef DEBUG
+                      $display("Cache cleared and all states reset.");
+                    `endif
+                end
+		9: begin // Print contents and state of each valid cache line
+    for (int i = 0; i < NUM_SETS; i++) begin
+        for (int j = 0; j < N_WAY; j++) begin
+            if (cache_mem[i].ways[j].mesi != I) begin
+                $display("Set: %0d, Way: %0d, MESI: %s, Tag: %h", 
+                         i, j, cache_mem[i].ways[j].mesi, cache_mem[i].ways[j].tag);
+            end
+        end
+    end
+end
+
               default: $display("Unknown trace event: %d\n", n);
             endcase
           end else begin
