@@ -54,7 +54,32 @@ bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address
     return 1'b0;  // Return 0 if no match was found
 endfunction: addr_check
 
-// set_st cache[]; // Array of sets
+
+// IMPLEMENTING COUNTERS TO COUNT THE NUMBER OF CACHE HITS AND MISSES
+
+  int cache_hits = 0;    // Processor cache hits
+  int cache_misses = 0;  // Processor cache misses
+  int cache_reads = 0;   // Snooping cache hits
+  int cache_write = 0; // Snooping cache misses
+
+  // Functions to increment counters
+  function void increment_hit();
+    cache_hits++;
+  endfunction: increment_hit
+
+  function void increment_miss();
+    cache_misses++;
+  endfunction: increment_miss
+
+  function void increment_read();
+    cache_reads++;
+  endfunction: increment_read
+
+  function void increment_write();
+    cache_write++;
+  endfunction: increment_write
+
+
 
 endpackage : pkg_line
  

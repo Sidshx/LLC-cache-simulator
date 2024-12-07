@@ -50,6 +50,8 @@ package pkg_bus;
             $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop, addr, SnoopResult);
         end
 
+//        return SnoopResult;
+
     endfunction
 
     function void PutSnoopResult(
