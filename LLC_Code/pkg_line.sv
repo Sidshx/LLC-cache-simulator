@@ -69,25 +69,46 @@ endfunction: addr_check
   real cache_hit_ratio = 0;
 
 	function void hit_ratio();
+
+	`ifdef DEBUG
+		$display("CacheHit Count = %d", cache_hits);
+		$display("CacheMiss Count = %d", cache_misses);
+		$display("CacheRead Count = %d", cache_reads);
+		$display("CacheWrite Count = %d", cache_write);
+	`endif
+
 	//	 cache_hit_ratio = (cache_hits / (cache_hits + cache_misses) + (cache_hits % (cache_hits + cache_misses)));
 		$display ("Cache hit ratio = %0f ", (real'(cache_hits) / (cache_hits + cache_misses)));
+
 	endfunction : hit_ratio
 
   // Functions to increment counters
   function void increment_hit();
     cache_hits++;
+`ifdef DEBUG
+	$display("CacheHit Count = %d", cache_hits);
+`endif
   endfunction: increment_hit
 
   function void increment_miss();
     cache_misses++;
+`ifdef DEBUG
+	$display("CacheMiss Count = %d", cache_misses);
+`endif
   endfunction: increment_miss
 
   function void increment_read();
     cache_reads++;
+`ifdef DEBUG
+	$display("CacheRead Count = %d", cache_reads);
+`endif
   endfunction: increment_read
 
   function void increment_write();
     cache_write++;
+`ifdef DEBUG
+	$display("CacheWrite Count = %d", cache_write);
+`endif
   endfunction: increment_write
 
 // CACHE INITIALISATION TASK

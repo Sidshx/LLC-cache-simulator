@@ -4,7 +4,9 @@ package pkg_bus;
 
     // Import definitions from other packages
     import pkg_line::*; // Assumes set_st, NUM_SETS, INDEX_SIZE, TAG_SIZE are in pkg_cache
-    logic NormalMode  = 1;
+
+    logic NormalMode = 1;
+
 
     // Enumerations
     typedef enum logic [2:0] {
@@ -47,7 +49,7 @@ package pkg_bus;
 
         // Print debug information if NormalMode is enabled
         if (NormalMode) begin
-            $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop, addr, SnoopResult);
+            $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop.name(), addr, SnoopResult.name());
         end
 	
 	if (busop == READ || RWIM) begin
@@ -65,7 +67,7 @@ package pkg_bus;
         input snoop_result_e SnoopResult  // Snoop result to report
     );
         if (NormalMode) begin
-            $display("SnoopResult: Address %h, SnoopResult: %0d", addr, SnoopResult);
+            $display("SnoopResult: Address %h, SnoopResult: %0d", addr, SnoopResult.name());
         end
     endfunction
 
@@ -74,7 +76,7 @@ package pkg_bus;
         input logic [31:0] addr          // Memory address associated with the operation
     );
         if (NormalMode) begin
-            $display("L2: %0d %h", msg, addr);
+            $display("L2: %0d %h", msg.name(), addr);
         end
     endfunction
 
