@@ -49,6 +49,12 @@ package pkg_bus;
         if (NormalMode) begin
             $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop, addr, SnoopResult);
         end
+	
+	if (busop == READ) begin
+	increment_read();
+	end else if (busop == WRITE) begin
+	increment_write();
+	end
 
 //        return SnoopResult;
 

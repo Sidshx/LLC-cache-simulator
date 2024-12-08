@@ -43,7 +43,7 @@ module LLC_Cache;
         $display("Using input trace file: %s", trace_filename);
       `endif
     end
-
+//thoth.cecs.pdx.edu/Home07/patilsid/My Documents/LLC/LLC_Cache_G11/LLC_Code/TOP.sv
     // Open the trace file
 
       file = $fopen(trace_filename, "r");    	// Added else condition 
@@ -82,6 +82,7 @@ module LLC_Cache;
             case (n)
 0: begin
     $display("Read request from L1 data cache, Address: %h \n", address);
+	$display("TAG_SIZE: %0d, INDEX_SIZE: %0d, OFFSET_SIZE: %0d", TAG_SIZE, INDEX_SIZE, OFFSET_SIZE);
 
 
 //    match_found = addr_check(cache_mem, address, way_idx);
@@ -132,8 +133,7 @@ end
 
 1: begin
     $display("Write request from L1 data cache, Address: %h\n", address);
-//	match_found = addr_check(cache_mem, address, way_idx);
-$display("Match found is %0d", match_found );
+
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
@@ -149,11 +149,11 @@ $display("Match found is %0d", match_found );
 	            cache_mem[index].ways[way_idx].mesi = M;
 	        end
 
-    end else begin
+    end else begin					//cache miss
         $display("Cache miss for address %h", address);
 	increment_miss();
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways);
-
+	$display("the victim way found is = %0h", victim_idx);
         if (cache_mem[index].ways[way_idx].mesi == M) begin
             $display("Victim is in Modified state. Performing BusWrite.");
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
@@ -161,7 +161,8 @@ $display("Match found is %0d", match_found );
 
         BusOperation(RWIM, address, NormalMode);
         cache_mem[index].ways[way_idx].tag = address[31:20];
-        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	$display("Printing tag before entering busop function = %0h", cache_mem[index].ways[way_idx].tag);
+        MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
     end
 end
 
@@ -331,7 +332,7 @@ $display("No. of cache hits = %0d", cache_hits);
 $display("No. of cache misses = %0d", cache_misses);
 $display("No. of cache writes = %0d", cache_write);
 $display("No. of cache reads = %0d", cache_reads);
-$display("cache hit ratio = %0d", cache_hit_ratio);
+$display("cache hit ratio = %0.3f", cache_hit_ratio);
 
       // Close the file after reading
       $fclose(file);
