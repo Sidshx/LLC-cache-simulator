@@ -85,7 +85,19 @@ endfunction: addr_check
     cache_write++;
   endfunction: increment_write
 
+// CACHE INITIALISATION TASK
+    task initialize_cache();
+        for (int i = 0; i < NUM_SETS; i++) begin
+            cache_mem[i].plru_bits = 0; 
+            for (int j = 0; j < N_WAY; j++) begin
+               // cache_mem[i].ways[j].valid = 0;
+              //  cache_mem[i].ways[j].dirty = 0;
+                cache_mem[i].ways[j].tag = 0;
+                cache_mem[i].ways[j].mesi = I;
 
+            end
+        end
+    endtask
 
 endpackage : pkg_line
  

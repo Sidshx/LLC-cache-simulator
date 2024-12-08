@@ -70,7 +70,7 @@ module LLC_Cache;
         // Read a line from the file
         if ($fgets(line, file)) begin
           // Parse the line format "n address" where n is a number and address is a hex
-          if ($sscanf(line, "%d %h %h", n, address) == 2) begin
+          if ($sscanf(line, "%d %h", n, address) == 2) begin
           //  address1 = decode_address(address);
             `ifdef DEBUG
               $display("Parsed: n = %0d, \nAddress: Tag[31:20] = %h, Index[19:6] = %h , Offset[5:0] = %h",
@@ -118,7 +118,7 @@ module LLC_Cache;
     $display("Read request from L1 data cache, Address: %h \n", address);
 
 
-    if (addrcheck(cache_mem, address, way_idx)) begin
+    if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
 	increment_hit();
@@ -164,7 +164,7 @@ end
 1: begin
     $display("Write request from L1 data cache, Address: %h\n", address);
 
-    if (addrcheck(cache_mem, address, way_idx)) begin
+    if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
 	increment_hit();
@@ -351,7 +351,7 @@ end
               default: begin $display("Unknown trace event: %d\n", n);
 end
             endcase
-hit_ratio();
+		hit_ratio();
           end else begin
             $display("Invalid line format: %s", line);
           end
