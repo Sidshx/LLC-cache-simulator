@@ -55,17 +55,14 @@ module LLC_Cache;
         $fatal("Error opening file: %s \n", trace_filename);
       end 
 	// Set all bits to 0 and MESI to Invalid
+        `ifdef DEBUG
+          $display("Initializing Cache");
+        `endif
       	initialize_cache();
       // Read and parse the file line-by-line
       while (!$feof(file)) begin
 
 	automatic bit match_found = 0;
-
-//        int n;
-//        bit [31:0] address;
-//	bit[TAG_SIZE-1 :0] tag;
-//	bit[INDEX_SIZE-1 :0] index;
-//	automatic bit match_found = 0;
 
         // Read a line from the file
         if ($fgets(line, file)) begin
@@ -81,37 +78,6 @@ module LLC_Cache;
 	logic[$clog2(N_WAY)-1:0 ] way_idx; //will return the way
 	index = address[19:6];
 
-
-
-           // Process each trace event based on `n` value
- // Process each trace event based on `n` value
-
-	
-//	case(n)
-//	3: begin //Snooped Read Request
-//	
-//	if(addr_check(cache_mem,address,way_idx))begin 
-//	//hit
-//	end
-//	else begin
-//	//Cache Miss
-//
-//	end
-//	end
-
-//	if(cache_mem[index].ways[way_idx].mesi == I )begin
-//		$display("Cache line in Invalid State, so No action taken.");
-//
-//	end
-//	UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
-//	end 
-//
-//  end
-//
-
-
-
-
             // Process each trace event based on `n` value
             case (n)
 0: begin
@@ -122,14 +88,12 @@ module LLC_Cache;
         // Cache hit
         $display("Cache hit for address %h", address);
 	increment_hit();
-
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
-	  MessageToCache(SENDLINE,address);
+	MessageToCache(SENDLINE,address);
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
 	increment_miss();
-
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
         if (cache_mem[index].ways[way_idx].mesi == M) begin
             $display("Victim is in Modified state. Performing BusWrite.");
@@ -257,17 +221,17 @@ end
                 MessageToCache(INVALIDATELINE, address);
                 cache_mem[index].ways[way_idx].mesi = I;
             end else if (cache_mem[index].ways[way_idx].mesi == M) begin
-                PutSnoopResult(address, HITM);
-                MessageToCache(GETLINE, address);
-                MessageToCache(INVALIDATELINE, address);
-                BusOperation(WRITE, address, 1);
-                cache_mem[index].ways[way_idx].mesi = I;
+                //PutSnoopResult(address, HITM);
+                //MessageToCache(GETLINE, address);
+                //MessageToCache(INVALIDATELINE, address);
+                //BusOperation(WRITE, address, 1);
+                //cache_mem[index].ways[way_idx].mesi = I;
 		$display("BUG ALERT: There will be NO Modified state ");
             end else if (cache_mem[index].ways[way_idx].mesi == E) begin
-                PutSnoopResult(address, HIT);
+              //  PutSnoopResult(address, HIT);
 		//MessageToCache(INVALIDATELINE, address);
 		$display("BUG ALERT: There will be NO Exclusive state ");
-                cache_mem[index].ways[way_idx].mesi = I;
+              //  cache_mem[index].ways[way_idx].mesi = I;
             end
         end else begin
             // Cache Miss
@@ -316,7 +280,7 @@ end
 	//MessageToCache(INVALIDATELINE,address);
 	//BusOperation(WRITE, address,1 );
 		$display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
-		cache_mem[index].ways[way_idx].mesi = I;
+	//cache_mem[index].ways[way_idx].mesi = I;
 		end else 
 		if ((cache_mem[index].ways[way_idx].mesi == E)) begin
 	//PutSnoopResult(address, HIT);
