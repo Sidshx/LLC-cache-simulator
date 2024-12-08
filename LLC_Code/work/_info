@@ -1,0 +1,116 @@
+m255
+K4
+z2
+!s11f vlog 2024.2 2024.05, May 20 2024
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code
+Xc_line_sv_unit
+Z1 2/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/c_line.sv
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 DXx4 work 8 pkg_line 0 22 Ic:5Dhl2mm`_iH1IbBL5;1
+Z4 !s110 1733610148
+V`ebnBOG?hU>[j4`C>@@EM2
+r1
+!s85 0
+!i10b 1
+!s100 bjeJFgFgL_VfAoKB4>Llh1
+I`ebnBOG?hU>[j4`C>@@EM2
+!i103 1
+S1
+R0
+Z5 w1733559424
+Z6 8/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/c_line.sv
+Z7 F/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/c_line.sv
+Z8 Fpkg_line.sv
+!i122 0
+L0 2 0
+Z9 OL;L;2024.2;79
+31
+Z10 !s108 1733610148.000000
+Z11 !s107 pkg_line.sv|/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/c_line.sv|
+Z12 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/c_line.sv|
+!i113 0
+Z13 o-work work -sv -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z14 tCvgOpt 0
+vcache
+R1
+R2
+R3
+DXx4 work 14 c_line_sv_unit 0 22 `ebnBOG?hU>[j4`C>@@EM2
+R4
+VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+!i10b 1
+!s100 D>6=?Lo`kJmU0lZKR5EMY3
+I]hgjGCPIQJXzUQleZ9c7F1
+!s105 c_line_sv_unit
+S1
+R0
+w1733533026
+R6
+R7
+!i122 0
+L0 4 40
+R9
+31
+R10
+R11
+R12
+!i113 0
+R13
+R14
+Xpkg_bus
+R2
+DXx4 work 8 pkg_line 0 22 3NaW=EH>ZO_X19@KW]:O52
+Z15 !s110 1733610149
+!i10b 1
+!s100 dRRV?h5LEmk2m@c0F8>Cz0
+IUPajENm;HT^U4A4c@GU413
+S1
+R0
+w1733537132
+Fpkg_bus.sv
+Z16 F/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/TOP.sv
+!i122 4
+L0 3 0
+VUPajENm;HT^U4A4c@GU413
+R9
+r1
+!s85 0
+31
+Z17 !s108 1733610149.000000
+!s107 pkg_bus.sv|pkg_line.sv|/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/TOP.sv|
+Z18 !s90 -reportprogress|300|-work|work|-vopt|-sv|-stats=none|/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/TOP.sv|
+!i113 0
+R13
+R14
+Xpkg_line
+R2
+R15
+!i10b 1
+!s100 n7ncY_`YnHD9KaikNh?Vf2
+I3NaW=EH>ZO_X19@KW]:O52
+S1
+R0
+R5
+R8
+R16
+!i122 4
+L0 1 0
+V3NaW=EH>ZO_X19@KW]:O52
+R9
+r1
+!s85 0
+31
+R17
+Z19 !s107 pkg_bus.sv|pkg_line.sv|/u/aakashbh/ECE-585/LLC_Cache_G11/LLC_Code/TOP.sv|
+R18
+!i113 0
+R13
+R14
