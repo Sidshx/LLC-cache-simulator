@@ -22,7 +22,7 @@ logic copy = 1;
     mesi_upd mesi_inst (
         .clk(clk),
         .rst(rst),
-        .operation(),
+        .operation(),//thoth.cecs.pdx.edu/Home07/patilsid/My Documents/LLC/LLC_Cache_G11/LLC_Code/pkg_bus.sv
 	.copy(copy),
         .address(address),
         .cache_mem(cache_mem), // Pass cache_mem here
