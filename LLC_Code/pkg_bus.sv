@@ -53,6 +53,7 @@ package pkg_bus;
 	if (busop == READ || RWIM) begin
 	increment_read();
 	end else if (busop == WRITE) begin
+        $display("Calling increment_write()");	
 	increment_write();
 	end
 
