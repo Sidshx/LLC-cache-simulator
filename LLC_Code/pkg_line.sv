@@ -50,6 +50,7 @@ bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address
         if ((cache_mem[index].ways[i].mesi != 0) && 
 		(cache_mem[index].ways[i].tag == address[31:20])) begin
             way_idx = i;  // Store the way index where the match occurs
+$display("inside function way_idx = %0h", way_idx);
             return 1'b1;   // Return 1 if a match is found
         end
     end

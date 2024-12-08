@@ -88,7 +88,7 @@ module LLC_Cache;
         $display("Cache hit for address %h", address);
 	increment_hit();
 $display("Cache hit is  = %0h, cache_misses is = %0h, way_idx = %0d ", cache_hits, cache_misses, way_idx);
-
+	
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 	MessageToCache(SENDLINE,address);
     end
@@ -99,7 +99,8 @@ $display("Cache hit is  = %0h, cache_misses is = %0h, way_idx = %0d ", cache_hit
 	$display("Cache hit is  = %0h, cache_misses is = %0h, way_idx = %0d ", cache_hits, cache_misses, way_idx);
 	$display("MESI state before entering function is = %0h", cache_mem[index].ways[1].mesi );
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
-        if (cache_mem[index].ways[victim_idx].mesi == M) begin
+        cache_mem[index].ways[victim_idx].tag = address[31:20];
+	if (cache_mem[index].ways[victim_idx].mesi == M) begin
             $display("Victim is in Modified state. Performing BusWrite.");
 		MessageToCache(GETLINE,{cache_mem[index].ways[victim_idx].tag, index, 6'b0});
 		MessageToCache(INVALIDATELINE,{cache_mem[index].ways[victim_idx].tag, index, 6'b0});
@@ -111,7 +112,7 @@ $display("Cache hit is  = %0h, cache_misses is = %0h, way_idx = %0d ", cache_hit
         BusOperation(READ, address, NormalMode);
 
         // Update cache with new data
-        cache_mem[index].ways[way_idx].tag = address[31:20];
+        
 	$display("Index = %0h, way = %0h, tag = %0h", index, way_idx, cache_mem[index].ways[way_idx].tag);
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
