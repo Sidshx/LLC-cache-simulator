@@ -24,7 +24,7 @@ module LLC_Cache;
 	bit[TAG_SIZE-1 :0] tag;
 	bit[INDEX_SIZE-1 :0] index;
 //	automatic bit match_found = 0;
-	int way_idx; 
+//	int way_idx; 
 	int victim_idx; // Declare way_idx at the top
 //        logic victim_idx;                    // Declare victim_idx at the top
 
@@ -106,7 +106,7 @@ module LLC_Cache;
 
         // Update cache with new data
         cache_mem[index].ways[way_idx].tag = address[31:20];
-
+	$display("Index = %0h, way = %0h, tag = %0h", index, way_idx, cache_mem[index].ways[way_idx].tag);
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
         // Get snoop result for the new address

@@ -8,7 +8,7 @@ parameter N_WAY = 16;
 parameter NUM_SETS = CACHE_SIZE / (LINE_SIZE * N_WAY);
 parameter INDEX_SIZE = $clog2(NUM_SETS);
 parameter TAG_SIZE = ADDR_SIZE - OFFSET_SIZE - INDEX_SIZE;
-
+logic [$clog2(N_WAY)-1:0 ] way_idx;
 
     typedef enum bit [1:0] {M = 2'b10, E = 2'b11, S = 2'b01, I = 2'b00} mesi_e;
 
@@ -34,8 +34,8 @@ set_st cache_mem[NUM_SETS];
 
 function automatic bit addr_check (
     ref set_st cache_mem[NUM_SETS],  // Cache memory passed by reference
-    input bit [31:0] address,              // Address to check
-    output logic[$clog2(N_WAY)-1:0 ] way_idx                     // Way index where match happens
+    input bit [31:0] address              // Address to check
+                        // Way index where match happens
 	);
 
 bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address

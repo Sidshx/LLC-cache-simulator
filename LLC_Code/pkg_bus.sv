@@ -4,7 +4,7 @@ package pkg_bus;
 
     // Import definitions from other packages
     import pkg_line::*; // Assumes set_st, NUM_SETS, INDEX_SIZE, TAG_SIZE are in pkg_cache
-    logic NormalMode;
+    logic NormalMode  = 1;
 
     // Enumerations
     typedef enum logic [2:0] {
