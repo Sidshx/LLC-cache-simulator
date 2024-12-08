@@ -8,7 +8,7 @@ parameter N_WAY = 16;
 parameter NUM_SETS = CACHE_SIZE / (LINE_SIZE * N_WAY);
 parameter INDEX_SIZE = $clog2(NUM_SETS);
 parameter TAG_SIZE = ADDR_SIZE - OFFSET_SIZE - INDEX_SIZE;
-logic [$clog2(N_WAY)-1:0 ] way_idx;
+//logic [$clog2(N_WAY)-1:0 ] way_idx;
 
     typedef enum bit [1:0] {M = 2'b10, E = 2'b11, S = 2'b01, I = 2'b00} mesi_e;
 

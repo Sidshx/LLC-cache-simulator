@@ -36,7 +36,7 @@ end
 */
 endfunction
 
-function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, input line_st ways[N_WAY]);
+function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, ref line_st ways[N_WAY]);
 
    int b = 0;  // Index for the PLRU 
    bit [3:0] Victim_Way = 0;  // Victim way
@@ -54,12 +54,12 @@ function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, input line_st
     for (i = 0; i < $clog2(N_WAY); i++) begin
         // Update the victim way based on the current PLRU bit
         Victim_Way = (Victim_Way << 1) |  bit'(~plru_bits[b]);
-	$display("VictimWay = %b \n",Victim_Way);
+//	$display("VictimWay = %b \n",Victim_Way);
         // Compute the next node in the PLRU tree
         b = (b << 1) + (1 << bit'(~plru_bits[b]));
-        $display("Next Bit = %b \n", b);
+ //       $display("Next Bit = %b \n", b);
     end
-
+	
     return Victim_Way;  // Return the victim way
 endfunction
 
