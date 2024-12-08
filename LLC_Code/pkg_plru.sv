@@ -22,7 +22,7 @@ for (i = $clog2(N_WAY)-1; i >= 0; i--)
 begin
    // Update the current PLRU bit based on the `w` value
    plru_bits[PLRU_Tree] = (way & (1 << i)) ? 1'b1 : 1'b0;
-   $display("PLRU BitUpdated PLRU[%d] = %b \n", PLRU_Tree, plru_bits[PLRU_Tree]);
+   $display("PLRU BitUpdated PLRU[%d] = %b ", PLRU_Tree, plru_bits[PLRU_Tree]);
    // Calculate the next index in the PLRU tree
    PLRU_Tree = (PLRU_Tree << 1) + ((way & (1 << i)) ? 2'b10 : 2'b01);
    //$display("Next PLRU Tree bit will be %d \n",PLRU_Tree); 

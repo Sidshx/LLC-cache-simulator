@@ -34,16 +34,20 @@ set_st cache_mem[NUM_SETS];
 
 function automatic bit addr_check (
     ref set_st cache_mem[NUM_SETS],  // Cache memory passed by reference
-    input bit [31:0] address              // Address to check
+    input bit [31:0] address,
+	output int way_idx              // Address to check
                         // Way index where match happens
 	);
 
 bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address
     way_idx = 'z;  // Default value when no match is found
-
+// $display("In addrcheck funct; index is = %0h, way is = %0h", index, way_idx);
     // Loop through the ways in the set
+
+// $display("Way 0 tag is: %0h, Actual tag is = %0h , state is = %0d", cache_mem[index].ways[0].tag, address[31:20], cache_mem[index].ways[0].mesi);
     for (int i = 0; i < 16; i++) begin
-        if ((cache_mem[index].ways[i].mesi != I) && 
+//$display("value of i is = %0h", i);
+        if ((cache_mem[index].ways[i].mesi != 0) && 
 		(cache_mem[index].ways[i].tag == address[31:20])) begin
             way_idx = i;  // Store the way index where the match occurs
             return 1'b1;   // Return 1 if a match is found
@@ -61,11 +65,11 @@ endfunction: addr_check
   int cache_misses = 0;  // Processor cache misses
   int cache_reads = 0;   // Snooping cache hits
   int cache_write = 0; // Snooping cache misses
-
-  int cache_hit_ratio = 0;
+  real cache_hit_ratio = 0;
 
 	function void hit_ratio();
-		$display ("Cache hit ratio = %0d ", (cache_hits / (cache_hits + cache_misses)));
+	//	 cache_hit_ratio = (cache_hits / (cache_hits + cache_misses) + (cache_hits % (cache_hits + cache_misses)));
+		$display ("Cache hit ratio = %0f ", (real'(cache_hits) / (cache_hits + cache_misses)));
 	endfunction : hit_ratio
 
   // Functions to increment counters

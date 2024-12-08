@@ -84,16 +84,20 @@ module LLC_Cache;
     $display("Read request from L1 data cache, Address: %h \n", address);
 
 
+//    match_found = addr_check(cache_mem, address, way_idx);
+$display("Match found is %0d", match_found );
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
 	increment_hit();
+$display("Cache hit is  = %0h, cache_misses is = %0h", cache_hits, cache_misses);
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 	MessageToCache(SENDLINE,address);
     end else begin
         // Cache miss
         $display("Cache miss for address %h", address);
 	increment_miss();
+$display("Cache hit is  = %0h, cache_misses is = %0h", cache_hits, cache_misses);
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
         if (cache_mem[index].ways[way_idx].mesi == M) begin
             $display("Victim is in Modified state. Performing BusWrite.");
@@ -120,6 +124,7 @@ module LLC_Cache;
         end
 
         // Notify L1
+	
         MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
@@ -127,7 +132,8 @@ end
 
 1: begin
     $display("Write request from L1 data cache, Address: %h\n", address);
-
+//	match_found = addr_check(cache_mem, address, way_idx);
+$display("Match found is %0d", match_found );
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
@@ -321,6 +327,11 @@ end
           end
         end
       end
+$display("No. of cache hits = %0d", cache_hits);
+$display("No. of cache misses = %0d", cache_misses);
+$display("No. of cache writes = %0d", cache_write);
+$display("No. of cache reads = %0d", cache_reads);
+$display("cache hit ratio = %0d", cache_hit_ratio);
 
       // Close the file after reading
       $fclose(file);
