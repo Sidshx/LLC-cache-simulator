@@ -83,7 +83,7 @@ module LLC_Cache;
 0: begin
 
   $display("Read request from L1 data cache, Address: %h \n", address);
-
+increment_read();
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
@@ -144,11 +144,12 @@ end
 
 1: begin
     $display("Write request from L1 data cache, Address: %h\n", address);
-
+increment_write();
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         $display("Cache hit for address %h", address);
 	increment_hit();
+	
 
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
@@ -167,6 +168,8 @@ end
 
         $display("Cache miss for address %h", address);
 	increment_miss();
+	
+
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways);
 	$display("the victim way found is = %0h", victim_idx);
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
@@ -186,6 +189,7 @@ end
 
 
               2: begin 
+increment_read();
 	$display("Read request from L1 instruction cache, Address: %h\n", address); 
 	if (addr_check(cache_mem, address, way_idx)) begin 
 	$display("Cache hit for address %h", address);		//Cache Hit
