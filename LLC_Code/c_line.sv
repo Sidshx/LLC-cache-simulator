@@ -22,7 +22,7 @@ logic copy = 1;
     mesi_upd mesi_inst (
         .clk(clk),
         .rst(rst),
-        .operation(),
+        .operation(),//thoth.cecs.pdx.edu/Home07/patilsid/My Documents/LLC/LLC_Cache_G11/LLC_Code/pkg_bus.sv
 	.copy(copy),
         .address(address),
         .cache_mem(cache_mem), // Pass cache_mem here
@@ -33,8 +33,6 @@ logic copy = 1;
         for (int i = 0; i < NUM_SETS; i++) begin
             cache_mem[i].plru_bits = 0; 
             for (int j = 0; j < N_WAY; j++) begin
-               // cache_mem[i].ways[j].valid = 0;
-              //  cache_mem[i].ways[j].dirty = 0;
                 cache_mem[i].ways[j].tag = 0;
                 cache_mem[i].ways[j].mesi = I;
 
