@@ -130,7 +130,7 @@ $display("Cache hit is  = %0h, cache_misses is = %0h, way_idx = %0d ", cache_hit
 
         // Notify L1
 	
-        MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
 
@@ -144,12 +144,14 @@ end
 	increment_hit();
 
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+//	MessageToCache(SENDLINE,address);
 
 	        if (cache_mem[index].ways[way_idx].mesi == S) begin
 	            $display("Victim is in Modified state. Performing BusWrite.");
-	            BusOperation(INVALIDATE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+	            BusOperation(INVALIDATE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
 	            cache_mem[index].ways[way_idx].mesi = M;
-	        end else begin
+	        end else 
+		begin
 	            cache_mem[index].ways[way_idx].mesi = M;
 	        end
 
@@ -158,46 +160,51 @@ end
 	increment_miss();
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways);
 	$display("the victim way found is = %0h", victim_idx);
-        if (cache_mem[index].ways[way_idx].mesi == M) begin
+        if (cache_mem[index].ways[victim_idx].mesi == M) begin
             $display("Victim is in Modified state. Performing BusWrite.");
+		MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+		MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
         end
-
+	UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
         BusOperation(RWIM, address, NormalMode);
-        cache_mem[index].ways[way_idx].tag = address[31:20];
-	$display("Printing tag before entering busop function = %0h", cache_mem[index].ways[way_idx].tag);
+        cache_mem[index].ways[victim_idx].tag = address[31:20];
+	cache_mem[index].ways[victim_idx].mesi = M;
+	//$display("Printing tag before entering busop function = %0h", cache_mem[index].ways[way_idx].tag);
         MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
     end
 end
 
 
-              2: begin $display("Read request from L1 instruction cache, Address: %h\n", address); 
+              2: begin 
+	$display("Read request from L1 instruction cache, Address: %h\n", address); 
 	if (addr_check(cache_mem, address, way_idx)) begin 
-	//Cache Hit
+	$display("Cache hit for address %h", address);		//Cache Hit
 	increment_hit();
+	UpdatePLRU(cache_mem[index].plru_bits, way_idx);
 	
-		    if (cache_mem[index].ways[way_idx].mesi == S) begin
+		    if (cache_mem[index].ways[way_idx].mesi == S || E) begin
 	                MessageToCache(SENDLINE, address); 
-	            end 
-			else if (cache_mem[index].ways[way_idx].mesi == E) begin
-	                MessageToCache(SENDLINE, address);
 	            end
 	end
 	 else begin 
-	//Cache Miss
+	$display("Cache miss for address %h", address);		//Cache Miss
 	increment_miss();
 	victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
-	BusOperation(READ, address, 1);
-		if (HIT == GetSnoopResult(address)) begin
-		cache_mem[index].ways[way_idx].mesi = S;
-		cache_mem[index].ways[way_idx].tag = address[31:20];
-		MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	cache_mem[index].ways[victim_idx].tag = address[31:20];
+	UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
+
+	BusOperation(READ, address, NormalMode);
+		
+		if(NOHIT == GetSnoopResult(address))begin
+		cache_mem[index].ways[victim_idx].mesi = E;
+	 	 end else  
+		begin
+		cache_mem[index].ways[victim_idx].mesi = S;
 		end
-		else if(NOHIT == GetSnoopResult(address))begin
-		cache_mem[index].ways[way_idx].mesi = E;
-		cache_mem[index].ways[way_idx].tag = address[31:20];
-		MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});	 
-	 	 end
+
+	
+	MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});	
 
 	end
 end
