@@ -332,7 +332,7 @@ $display("No. of cache hits = %0d", cache_hits);
 $display("No. of cache misses = %0d", cache_misses);
 $display("No. of cache writes = %0d", cache_write);
 $display("No. of cache reads = %0d", cache_reads);
-$display("cache hit ratio = %0.3f", cache_hit_ratio);
+hit_ratio();
 
       // Close the file after reading
       $fclose(file);
