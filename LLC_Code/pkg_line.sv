@@ -105,7 +105,9 @@ endfunction: addr_check
   endfunction: increment_read
 
   function void increment_write();
+$display("before"); ///////////////////////////////////////////////////////////
     cache_write++;
+$display("after"); ///////////////////////////////////////////////////////////
 `ifdef DEBUG
 	$display("CacheWrite Count = %d", cache_write);
 `endif

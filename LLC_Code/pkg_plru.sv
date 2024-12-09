@@ -40,7 +40,6 @@ endfunction
 
 function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, ref line_st ways[N_WAY]);
 
-
    int b = 0;  // Index for the PLRU 
    bit [3:0] Victim_Way = 0;  // Victim way
    int i;
@@ -53,15 +52,7 @@ function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, ref line_st w
         end
     end
 
-	 // Check for any way in the invalid (I) state
-    for (int way = 0; way < N_WAY; way++) begin
-        if (mesi_states[way] == I) begin
-            $display("Found invalid MESI state at Way: %0d", way);
-	    Victim_Way = way;
-            return Victim_Way;  // Return the invalid way as the victim
-        end
-    end
-
+	
     // Traverse the PLRU tree to find the victim way
     for (i = 0; i < $clog2(N_WAY); i++) begin
         // Update the victim way based on the current PLRU bit
@@ -75,7 +66,7 @@ function automatic int VictimPLRU(input bit [N_WAY-2:0] plru_bits, ref line_st w
     end
 
 
-$display("NO invalid MESI state found. Returning PLRU-selected victim: way %0d, "Victim_Way);
+$display("NO invalid MESI state found. Returning PLRU-selected victim: way %0d, ",Victim_Way);
 
     return Victim_Way;  // Return the victim way
 endfunction

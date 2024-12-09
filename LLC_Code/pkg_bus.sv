@@ -52,11 +52,12 @@ package pkg_bus;
             $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop.name(), addr, SnoopResult.name());
         end
 	
-	if (busop == READ || RWIM) begin
-	increment_read();
-	end else if (busop == WRITE) begin
-	increment_write();
-	end
+//	if (busop == READ || RWIM) begin
+//	increment_read();
+//	end else if (busop == WRITE) begin
+//        $display("Calling increment_write()");	
+//	increment_write();
+//	end
 
 //        return SnoopResult;
 
