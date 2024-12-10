@@ -1,0 +1,69 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=./traces/t8.din
+# End time: 21:00:25 on Dec 09,2024, Elapsed time: 0:00:59
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=./traces/t8.din" 
+# Start time: 21:00:25 on Dec 09,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# Read request from L1 data cache, Address: 00000000 
+# 
+# Cache miss for address 00000000
+# Cache hit is  = 0, cache_misses is = 1, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 0
+# Busop: READ, Address: 00000000, Snoop Result: HIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 00000000
+# Read request from L1 data cache, Address: 00200002 
+# 
+# Cache miss for address 00200002
+# Cache hit is  = 0, cache_misses is = 2, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 1
+# Busop: READ, Address: 00200002, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           1 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00200000
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 1, MESI: E, Tag: 002
+# Snooped read request, Address: 0000003f
+# 
+# inside function way_idx = 0
+# SnoopResult: Address 0000003f, SnoopResult: HIT
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 1, MESI: E, Tag: 002
+# Snooped read request, Address: 0020003f
+# 
+# inside function way_idx = 1
+# SnoopResult: Address 0020003f, SnoopResult: HIT
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# No. of cache reads = 2
+# No. of cache writes = 0
+# No. of cache hits = 0
+# No. of cache misses = 2
+# Cache hit ratio = 0.000000 
+# Cache hit ratio = 0.000000 
