@@ -13,10 +13,3 @@
 # // of the Customer's facilities without the express written permission of SISW,
 # // and may not be used in any way not expressly authorized by SISW.
 # //
-# Loading project testing
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv failed with 2 errors.
-# Compile of TOP.sv failed with 3 errors.
-# 5 compiles, 2 failed with 5 errors.

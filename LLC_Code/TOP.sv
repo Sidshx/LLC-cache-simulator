@@ -439,6 +439,10 @@ $display("No. of cache writes = %0d", cache_write);
 $display("No. of cache reads = %0d", cache_reads);
 $display("======================================= \n ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL!");
 
+
+
+
+
 // Close the file after reading
 $fclose(file);
 `ifdef DEBUG
