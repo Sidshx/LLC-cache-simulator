@@ -14,53 +14,7 @@
 # //  18 U.S.C. Section 1905.
 # //
 # Loading project LLC
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful.
 # Compile of pkg_line.sv was successful.
 # Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# 5 compiles, 0 failed with no errors.
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# 5 compiles, 0 failed with no errors.
 # Compile of TOP.sv failed with 2 errors.
-# Compile of TOP.sv was successful with warnings.
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv failed with 1 errors.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv failed with 1 errors.
-# 5 compiles, 2 failed with 2 errors.
-# Compile of pkg_bus.sv was successful.
-# Compile of pkg_bus.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful with warnings.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# 5 compiles, 0 failed with no errors.
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# 5 compiles, 0 failed with no errors.
-# Compile of TOP.sv failed with 1 errors.
-# Compile of TOP.sv was successful with warnings.
-# Compile of TOP.sv was successful with warnings.
-# Compile of c_line.sv was successful.
-# Compile of pkg_bus.sv was successful.
-# Compile of pkg_line.sv was successful.
-# Compile of pkg_plru.sv was successful.
-# Compile of TOP.sv was successful with warnings.
-# 5 compiles, 0 failed with no errors.
+# 3 compiles, 1 failed with 2 errors.
