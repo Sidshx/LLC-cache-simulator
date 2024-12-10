@@ -59,7 +59,7 @@ package pkg_line;
 
 	function void hit_ratio();
 
-	$display ("Cache hit ratio = %0f ", (real'(cache_hits) / (cache_hits + cache_misses)));
+	$display ("Cache Hit Ratio = %0f ", (real'(cache_hits) / (cache_hits + cache_misses)));
 
 	endfunction : hit_ratio
 
