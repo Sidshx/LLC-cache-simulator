@@ -82,14 +82,8 @@ module LLC_Cache;
 
 0: begin
 
-    `ifdef DEBUG
-<<<<<<< HEAD
-    $display("READ REQUEST FROM L1 DATA CACHE, Address: %h \n", address);
-=======
-    $display("\n-> Read request from L1 data cache, Address: %h ", address);
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
     increment_read();
-    `endif
+    $display("\n-> Read request from L1 data cache, Address: %h ", address);
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
@@ -123,11 +117,7 @@ module LLC_Cache;
         
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
         `ifdef DEBUG
-<<<<<<< HEAD
             $display("Victim is in MODIFIED state. Performing BusWrite.");
-=======
-            $display("Victim is in Modified state.");
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
         `endif
             MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
@@ -178,11 +168,7 @@ end
 
 
 1: begin
-<<<<<<< HEAD
-    $display("WRITE REQUEST FROM L1 DATA CACHE, Address: %h\n", address);
-=======
     $display("\n-> Write request from L1 data cache, Address: %h", address);
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
     increment_write();
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -195,7 +181,6 @@ end
 
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
-<<<<<<< HEAD
         if (cache_mem[index].ways[way_idx].mesi == S) begin
             `ifdef DEBUG
             $display("Victim is in MODIFIED state. Performing BusWrite.");
@@ -206,9 +191,7 @@ end
         end else begin
             cache_mem[index].ways[way_idx].mesi = M;
         end
-=======
         cache_mem[index].ways[way_idx].mesi = M;
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
 
     end else begin // Cache miss
         `ifdef DEBUG
@@ -249,14 +232,8 @@ end
 2: begin
     increment_read();
 
-<<<<<<< HEAD
-    `ifdef DEBUG
-    $display("READ REQUEST FROM L1 INSTRUCTION CACHE, Address: %h\n", address);
-    `endif
-=======
     $display("\n-> Read request from L1 instruction cache, Address: %h", address);
     
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
 
     if (addr_check(cache_mem, address, way_idx)) begin
         `ifdef DEBUG
@@ -320,15 +297,9 @@ end
 
 
 4: begin // Snooped Write Request
-<<<<<<< HEAD
-    `ifdef DEBUG
-    $display("SNOOPED WRITE REQUEST, Address: %h\n", address);
-    `endif
-=======
+
     $display("\n-> Snooped write request, Address: %h", address);
     
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
-
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
@@ -373,16 +344,8 @@ end
 
               
 6: begin
-<<<<<<< HEAD
-    `ifdef DEBUG
-    $display("SNOOPED INVALIDATE COMMAND, Address: %h\n", address);
-    `endif
-=======
-    
     $display("\n-> Snooped invalidate command, Address: %h", address);
     
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
-
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache Hit
         `ifdef DEBUG
@@ -415,14 +378,7 @@ end
                          
 
 8: begin
-<<<<<<< HEAD
-    `ifdef DEBUG
-    $display("CLEAR THE CACHE AND RESET ALL STATE.");
-    `endif
-=======
     $display("\n-> Clearing the cache and resetting all state.");
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
-
     initialize_cache(); // Clear the cache
 
     `ifdef DEBUG
@@ -459,15 +415,7 @@ end
 $display("\nNo. of cache hits = %0d", cache_hits);
 $display("No. of cache misses = %0d", cache_misses);
 $display("No. of cache writes = %0d", cache_write);
-<<<<<<< HEAD
-$display("No. of cache reads = %0d", cache_reads);
-$display("======================================= \n ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL! =======================================");
-
-
-
-=======
 $display("No. of cache reads = %0d \n", cache_reads);
->>>>>>> 1d8aa3734d1fc7bde0385e644b7bedf214bf7fe0
 
 
 // Close the file after reading
@@ -477,7 +425,7 @@ $fclose(file);
 `endif
 
 
-$display("=======================================\nANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL!");
+$display("=======================================\nANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL ======================================!");
 hit_ratio();
 end
 
