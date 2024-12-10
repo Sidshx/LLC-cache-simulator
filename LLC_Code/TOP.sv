@@ -431,7 +431,7 @@ $fclose(file);
 `endif
 
 
-$display("=======================================\nANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL ======================================!");
+$display("================\nANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAL \n");
 hit_ratio();
 end
 
