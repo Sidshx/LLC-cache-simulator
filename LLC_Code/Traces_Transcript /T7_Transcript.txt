@@ -1,0 +1,342 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=./traces/t7.din
+# End time: 20:59:26 on Dec 09,2024, Elapsed time: 0:00:46
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=./traces/t7.din" 
+# Start time: 20:59:26 on Dec 09,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# Write request from L1 data cache, Address: 00000000
+# 
+# before
+# after
+# Cache miss for address 00000000
+# Found Invalid MESI state in Way: 0
+# the victim way found is = 0
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Busop: RWIM, Address: 00000000, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00200001
+# 
+# before
+# after
+# Cache miss for address 00200001
+# Found Invalid MESI state in Way: 1
+# the victim way found is = 1
+# Updating for Way:           1 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# Busop: RWIM, Address: 00200001, Snoop Result: HITM
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00400002
+# 
+# before
+# after
+# Cache miss for address 00400002
+# Found Invalid MESI state in Way: 2
+# the victim way found is = 2
+# Updating for Way:           2 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 0
+# Busop: RWIM, Address: 00400002, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00600003
+# 
+# before
+# after
+# Cache miss for address 00600003
+# Found Invalid MESI state in Way: 3
+# the victim way found is = 3
+# Updating for Way:           3 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 1
+# Busop: RWIM, Address: 00600003, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00800004
+# 
+# before
+# after
+# Cache miss for address 00800004
+# Found Invalid MESI state in Way: 4
+# the victim way found is = 4
+# Updating for Way:           4 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 0
+# Busop: RWIM, Address: 00800004, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00a00005
+# 
+# before
+# after
+# Cache miss for address 00a00005
+# Found Invalid MESI state in Way: 5
+# the victim way found is = 5
+# Updating for Way:           5 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 1
+# Busop: RWIM, Address: 00a00005, Snoop Result: HITM
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00c00006
+# 
+# before
+# after
+# Cache miss for address 00c00006
+# Found Invalid MESI state in Way: 6
+# the victim way found is = 6
+# Updating for Way:           6 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 1
+# PLRU BitUpdated PLRU[         10] = 0
+# Busop: RWIM, Address: 00c00006, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00e00007
+# 
+# before
+# after
+# Cache miss for address 00e00007
+# Found Invalid MESI state in Way: 7
+# the victim way found is = 7
+# Updating for Way:           7 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 1
+# PLRU BitUpdated PLRU[         10] = 1
+# Busop: RWIM, Address: 00e00007, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01000000
+# 
+# before
+# after
+# Cache miss for address 01000000
+# Found Invalid MESI state in Way: 8
+# the victim way found is = 8
+# Updating for Way:           8 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 0
+# PLRU BitUpdated PLRU[          5] = 0
+# PLRU BitUpdated PLRU[         11] = 0
+# Busop: RWIM, Address: 01000000, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01200001
+# 
+# before
+# after
+# Cache miss for address 01200001
+# Found Invalid MESI state in Way: 9
+# the victim way found is = 9
+# Updating for Way:           9 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 0
+# PLRU BitUpdated PLRU[          5] = 0
+# PLRU BitUpdated PLRU[         11] = 1
+# Busop: RWIM, Address: 01200001, Snoop Result: HITM
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01400002
+# 
+# before
+# after
+# Cache miss for address 01400002
+# Found Invalid MESI state in Way: 10
+# the victim way found is = a
+# Updating for Way:          10 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 0
+# PLRU BitUpdated PLRU[          5] = 1
+# PLRU BitUpdated PLRU[         12] = 0
+# Busop: RWIM, Address: 01400002, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01600003
+# 
+# before
+# after
+# Cache miss for address 01600003
+# Found Invalid MESI state in Way: 11
+# the victim way found is = b
+# Updating for Way:          11 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 0
+# PLRU BitUpdated PLRU[          5] = 1
+# PLRU BitUpdated PLRU[         12] = 1
+# Busop: RWIM, Address: 01600003, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01800004
+# 
+# before
+# after
+# Cache miss for address 01800004
+# Found Invalid MESI state in Way: 12
+# the victim way found is = c
+# Updating for Way:          12 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 1
+# PLRU BitUpdated PLRU[          6] = 0
+# PLRU BitUpdated PLRU[         13] = 0
+# Busop: RWIM, Address: 01800004, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01a00005
+# 
+# before
+# after
+# Cache miss for address 01a00005
+# Found Invalid MESI state in Way: 13
+# the victim way found is = d
+# Updating for Way:          13 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 1
+# PLRU BitUpdated PLRU[          6] = 0
+# PLRU BitUpdated PLRU[         13] = 1
+# Busop: RWIM, Address: 01a00005, Snoop Result: HITM
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01c00006
+# 
+# before
+# after
+# Cache miss for address 01c00006
+# Found Invalid MESI state in Way: 14
+# the victim way found is = e
+# Updating for Way:          14 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 1
+# PLRU BitUpdated PLRU[          6] = 1
+# PLRU BitUpdated PLRU[         14] = 0
+# Busop: RWIM, Address: 01c00006, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01e00007
+# 
+# before
+# after
+# Cache miss for address 01e00007
+# Found Invalid MESI state in Way: 15
+# the victim way found is = f
+# Updating for Way:          15 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 1
+# PLRU BitUpdated PLRU[          6] = 1
+# PLRU BitUpdated PLRU[         14] = 1
+# Busop: RWIM, Address: 01e00007, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 01000000
+# 
+# before
+# after
+# inside function way_idx = 8
+# Cache hit for address 01000000
+# Updating for Way:           8 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 1
+# PLRU BitUpdated PLRU[          2] = 0
+# PLRU BitUpdated PLRU[          5] = 0
+# PLRU BitUpdated PLRU[         11] = 0
+# Set: 0, Way: 0, MESI: M, Tag: 000
+# Set: 0, Way: 1, MESI: M, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: M, Tag: 006
+# Set: 0, Way: 4, MESI: M, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# Set: 0, Way: 6, MESI: M, Tag: 00c
+# Set: 0, Way: 7, MESI: M, Tag: 00e
+# Set: 0, Way: 8, MESI: M, Tag: 010
+# Set: 0, Way: 9, MESI: M, Tag: 012
+# Set: 0, Way: 10, MESI: M, Tag: 014
+# Set: 0, Way: 11, MESI: M, Tag: 016
+# Set: 0, Way: 12, MESI: M, Tag: 018
+# Set: 0, Way: 13, MESI: M, Tag: 01a
+# Set: 0, Way: 14, MESI: M, Tag: 01c
+# Set: 0, Way: 15, MESI: M, Tag: 01e
+# Read request from L1 data cache, Address: 02000002 
+# 
+# Cache miss for address 02000002
+# Cache hit is  = 1, cache_misses is = 11, way_idx = 0 
+# MESI state before entering function is = 2
+# NO invalid MESI state found. Returning PLRU-selected victim: way 0, 
+# Victim is in Modified state. Performing BusWrite.
+# L2: GETLINE 02000000
+# L2: INVALIDATELINE 02000000
+# Busop: WRITE, Address: 02000000, Snoop Result: HIT
+# Busop: READ, Address: 02000002, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 20
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 02000000
+# Set: 0, Way: 0, MESI: E, Tag: 020
+# Set: 0, Way: 1, MESI: M, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: M, Tag: 006
+# Set: 0, Way: 4, MESI: M, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# Set: 0, Way: 6, MESI: M, Tag: 00c
+# Set: 0, Way: 7, MESI: M, Tag: 00e
+# Set: 0, Way: 8, MESI: M, Tag: 010
+# Set: 0, Way: 9, MESI: M, Tag: 012
+# Set: 0, Way: 10, MESI: M, Tag: 014
+# Set: 0, Way: 11, MESI: M, Tag: 016
+# Set: 0, Way: 12, MESI: M, Tag: 018
+# Set: 0, Way: 13, MESI: M, Tag: 01a
+# Set: 0, Way: 14, MESI: M, Tag: 01c
+# Set: 0, Way: 15, MESI: M, Tag: 01e
+# No. of cache reads = 1
+# No. of cache writes = 17
+# No. of cache hits = 1
+# No. of cache misses = 17
+# Cache hit ratio = 0.055556 
+# Cache hit ratio = 0.055556 

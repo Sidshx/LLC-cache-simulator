@@ -310,9 +310,9 @@ end
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         if (cache_mem[index].ways[way_idx].mesi == S) begin
-            PutSnoopResult(address, HIT);
-            MessageToCache(INVALIDATELINE, address);
-            cache_mem[index].ways[way_idx].mesi = I;
+        //    PutSnoopResult(address, HIT);
+        //    MessageToCache(INVALIDATELINE, address);
+        //    cache_mem[index].ways[way_idx].mesi = I;
         end else if (cache_mem[index].ways[way_idx].mesi == M) begin
 
             `ifdef DEBUG
@@ -323,6 +323,7 @@ end
             `ifdef DEBUG
             $display("BUG ALERT: There will be NO Exclusive state ");
             `endif
+
         end
     end else begin
         // Cache Miss
