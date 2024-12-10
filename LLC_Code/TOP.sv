@@ -24,11 +24,8 @@ module LLC_Cache;
         bit [31:0] address;
         bit[TAG_SIZE-1:0] tag;
         bit[INDEX_SIZE-1:0] index;
-        // automatic bit match_found = 0;
-        // logic[$clog2(N_WAY)-1:0] way_idx; // Will return the way
         int way_idx; 
         int victim_idx; // Declare way_idx at the top
-        // logic victim_idx; // Declare victim_idx at the top
 
 	`ifdef DEBUG
 	    $display("Working code to read and parse an input trace file (the name of which is specified by the user) with correct default if none specified");
