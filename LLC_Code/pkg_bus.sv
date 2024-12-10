@@ -7,7 +7,6 @@ package pkg_bus;
 
     logic NormalMode = 1;
 
-
     // Enumerations
     typedef enum logic [2:0] {
         READ      = 3'b001, // Read operation
@@ -51,15 +50,15 @@ package pkg_bus;
         if (NormalMode) begin
             $display("Busop: %0d, Address: %h, Snoop Result: %0d", busop.name(), addr, SnoopResult.name());
         end
-	
-//	if (busop == READ || RWIM) begin
-//	increment_read();
-//	end else if (busop == WRITE) begin
-//        $display("Calling increment_write()");	
-//	increment_write();
-//	end
 
-//        return SnoopResult;
+    //    if (busop == READ || RWIM) begin
+    //        increment_read();
+    //    end else if (busop == WRITE) begin
+    //        $display("Calling increment_write()");  
+    //        increment_write();
+    //    end
+
+    //    return SnoopResult;
 
     endfunction
 
