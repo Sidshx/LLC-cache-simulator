@@ -1,0 +1,58 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=./traces/t12.din
+# End time: 21:05:35 on Dec 09,2024, Elapsed time: 0:00:38
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=./traces/t12.din" 
+# Start time: 21:05:35 on Dec 09,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# Read request from L1 data cache, Address: 00000002 
+# 
+# Cache miss for address 00000002
+# Cache hit is  = 0, cache_misses is = 1, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 0
+# Busop: READ, Address: 00000002, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00000000
+# Write request from L1 data cache, Address: 00000002
+# 
+# before
+# after
+# inside function way_idx = 0
+# Cache hit for address 00000002
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Set: 0, Way: 0, MESI: M, Tag: 000
+# Snooped read with intent to modify request, Address: 0000003f
+# 
+# inside function way_idx = 0
+# SnoopResult: Address 00000000, SnoopResult: HITM
+# L2: GETLINE 00000000
+# L2: INVALIDATELINE 00000000
+# Busop: WRITE, Address: 00000000, Snoop Result: HIT
+# No. of cache reads = 1
+# No. of cache writes = 1
+# No. of cache hits = 1
+# No. of cache misses = 1
+# Cache hit ratio = 0.500000 
+# Cache hit ratio = 0.500000 

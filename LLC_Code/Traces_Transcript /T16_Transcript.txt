@@ -1,0 +1,33 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=./traces/t16.din
+# End time: 21:09:12 on Dec 09,2024, Elapsed time: 0:01:20
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=./traces/t16.din" 
+# Start time: 21:09:12 on Dec 09,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# Snooped invalidate command, Address: 00000000
+# 
+# Cache MISS
+# Snooped read request, Address: 00000040
+# 
+# SnoopResult: Address 00000040, SnoopResult: NOHIT
+# Snooped write request, Address: 00000080
+# 
+# SnoopResult: Address 00000080, SnoopResult: NOHIT
+# Snooped read with intent to modify request, Address: 000000c0
+# 
+# SnoopResult: Address xxx000c0, SnoopResult: NOHIT
+# No. of cache reads = 0
+# No. of cache writes = 0
+# No. of cache hits = 0
+# No. of cache misses = 0
+# Cache hit ratio = ** Error (suppressible): (vsim-8604) pkg_line.sv(81): NaN (not a number) resulted from a division operation.
+# -nan 
+# Cache hit ratio = ** Error (suppressible): (vsim-8604) pkg_line.sv(81): NaN (not a number) resulted from a division operation.
+# -nan 
