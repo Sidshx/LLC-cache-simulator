@@ -24,14 +24,11 @@ module LLC_Cache;
         bit [31:0] address;
         bit[TAG_SIZE-1:0] tag;
         bit[INDEX_SIZE-1:0] index;
-        // automatic bit match_found = 0;
-        // logic[$clog2(N_WAY)-1:0] way_idx; // Will return the way
         int way_idx; 
         int victim_idx; // Declare way_idx at the top
-        // logic victim_idx; // Declare victim_idx at the top
 
 	`ifdef DEBUG
-	    $display("Working code to read and parse an input trace file (the name of which is specified by the user) with correct default if none specified");
+	    $display("A working code snippet to read and parse an input trace file, using a default file if the user does not specify a filename.");
 	`endif
 	
 	// Check if a custom filename was provided
@@ -57,7 +54,7 @@ module LLC_Cache;
 	
 	// Set all bits to 0 and MESI to Invalid
 	`ifdef DEBUG
-	    $display("Initializing Cache");
+	    $display("############### Initializing Cache ###############");
 	`endif
 	initialize_cache();
 	
@@ -69,7 +66,6 @@ module LLC_Cache;
 	    if ($fgets(line, file)) begin
 	        // Parse the line format "n address" where n is a number and address is a hex
 	        if ($sscanf(line, "%d %h", n, address) == 2) begin
-	            // address1 = decode_address(address);
 	            `ifdef DEBUG
 	                $display("Parsed: n = %0d, \nAddress: Tag[31:20] = %h, Index[19:6] = %h, Offset[5:0] = %h",
 	                         n, address[31:20], address[19:6], address[5:0]);
@@ -87,7 +83,7 @@ module LLC_Cache;
 0: begin
 
     `ifdef DEBUG
-    $display("Read request from L1 data cache, Address: %h \n", address);
+    $display("READ REQUEST FROM L1 DATA CACHE, Address: %h \n", address);
     increment_read();
     `endif
 
@@ -123,7 +119,7 @@ module LLC_Cache;
         
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
         `ifdef DEBUG
-            $display("Victim is in Modified state. Performing BusWrite.");
+            $display("Victim is in MODIFIED state. Performing BusWrite.");
         `endif
             MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
@@ -144,7 +140,7 @@ module LLC_Cache;
         if (snoop_result == HIT || snoop_result == HITM) begin
 
             `ifdef DEBUG
-            $display("Snoop response HIT or HITM. Transitioning to Shared state.");
+            $display("Snoop response HIT or HITM. Transitioning to SHARED state.");
             `endif
 
             cache_mem[index].ways[victim_idx].mesi = S;
@@ -156,7 +152,7 @@ module LLC_Cache;
         end else begin
 
             `ifdef DEBUG
-            $display("No snoop hit. Transitioning to Exclusive state.");
+            $display("No snoop hit. Transitioning to EXCLUSIVE state.");
             `endif
 
             cache_mem[index].ways[victim_idx].mesi = E;
@@ -174,7 +170,7 @@ end
 
 
 1: begin
-    $display("Write request from L1 data cache, Address: %h\n", address);
+    $display("WRITE REQUEST FROM L1 DATA CACHE, Address: %h\n", address);
     increment_write();
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -189,7 +185,7 @@ end
 
         if (cache_mem[index].ways[way_idx].mesi == S) begin
             `ifdef DEBUG
-            $display("Victim is in Modified state. Performing BusWrite.");
+            $display("Victim is in MODIFIED state. Performing BusWrite.");
             `endif
 
             BusOperation(INVALIDATE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
@@ -214,7 +210,7 @@ end
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
 
             `ifdef DEBUG
-            $display("Victim is in Modified state. Performing BusWrite.");
+            $display("Victim is in MODIFIED state. Performing BusWrite.");
             `endif
 
             MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
@@ -237,7 +233,7 @@ end
     increment_read();
 
     `ifdef DEBUG
-    $display("Read request from L1 instruction cache, Address: %h\n", address);
+    $display("READ REQUEST FROM L1 INSTRUCTION CACHE, Address: %h\n", address);
     `endif
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -304,7 +300,7 @@ end
 
 4: begin // Snooped Write Request
     `ifdef DEBUG
-    $display("Snooped write request, Address: %h\n", address);
+    $display("SNOOPED WRITE REQUEST, Address: %h\n", address);
     `endif
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -359,7 +355,7 @@ end
               
 6: begin
     `ifdef DEBUG
-    $display("Snooped invalidate command, Address: %h\n", address);
+    $display("SNOOPED INVALIDATE COMMAND, Address: %h\n", address);
     `endif
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -399,7 +395,7 @@ end
 
 8: begin
     `ifdef DEBUG
-    $display("Clear the cache and reset all state.");
+    $display("CLEAR THE CACHE AND RESET ALL STATE.");
     `endif
 
     initialize_cache(); // Clear the cache
@@ -437,7 +433,7 @@ $display("No. of cache hits = %0d", cache_hits);
 $display("No. of cache misses = %0d", cache_misses);
 $display("No. of cache writes = %0d", cache_write);
 $display("No. of cache reads = %0d", cache_reads);
-$display("======================================= \n ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL!");
+$display("======================================= \n ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL! =======================================");
 
 
 
