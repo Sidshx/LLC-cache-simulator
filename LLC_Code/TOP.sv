@@ -261,6 +261,9 @@ end
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
+	`ifdef DEBUG
+	$display("Snoop resulted in a hit at Way %0h | And State %0h ", way_idx, cache_mem[index].ways[way_idx].mesi.name());
+	`endif
         if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
             PutSnoopResult(address, HIT);
 	    cache_mem[index].ways[way_idx].mesi = S;
@@ -270,6 +273,9 @@ end
             BusOperation(WRITE, address, NormalMode);
             cache_mem[index].ways[way_idx].mesi = S;
         end 
+	`ifdef DEBUG
+	$display("Snooped address updated State is %0h ", cache_mem[index].ways[way_idx].mesi.name());
+	`endif
     end else begin
         // Cache Miss
         PutSnoopResult(address, NOHIT);
