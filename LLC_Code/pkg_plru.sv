@@ -8,9 +8,9 @@ import pkg_line::*;
 	bit [3:0]w = way;
 	int PLRU_Tree;  // Start at the root of the PLRU tree
 	int i;
-	
-	$display("Updating for Way: %d \n\n",way); 
-	
+	`ifdef  DEBUG
+	$display("Updating for Way: %d ",way); 
+	`endif
 	// Check for validity of `way`
 	if (way < 0 || way >= N_WAY) begin
 		$fatal("Error: Invalid `way` value (%0d). `way` must be in the range [0, %0d).", way, N_WAY);
@@ -40,7 +40,9 @@ import pkg_line::*;
 	    
 	    for (i = 0; i < N_WAY; i++) begin
 	        if (ways[i].mesi == I) begin
+		`ifdef DEBUG
 	            $display("Found Invalid MESI state in Way: %0d", i);
+		`endif
 	            Victim_Way = i;
 	            return Victim_Way; // Return the index of the invalid line
 	        end
@@ -58,8 +60,9 @@ import pkg_line::*;
 	        // $display("Next Bit = %b \n", b);
 	    end
 	
-
-$display("NO invalid MESI state found. Returning PLRU-selected victim: way %0d, ",Victim_Way);
+	`ifdef DEBUG
+	$display("NO invalid MESI state found. Returning PLRU-selected victim: way %0d ",Victim_Way);
+	`endif
 
     return Victim_Way;  // Return the victim way
 endfunction

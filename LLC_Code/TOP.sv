@@ -87,7 +87,7 @@ module LLC_Cache;
 0: begin
 
     `ifdef DEBUG
-    $display("Read request from L1 data cache, Address: %h \n", address);
+    $display("\n-> Read request from L1 data cache, Address: %h ", address);
     increment_read();
     `endif
 
@@ -114,8 +114,8 @@ module LLC_Cache;
         increment_miss();
 
         `ifdef DEBUG
-        $display("Cache hit is = %0h, cache_misses is = %0h, way_idx = %0d", cache_hits, cache_misses, way_idx);
-        $display("MESI state before entering function is = %0h", cache_mem[index].ways[1].mesi);
+//        $display("Cache hit is = %0h, cache_misses is = %0h, way_idx = %0d", cache_hits, cache_misses, way_idx);
+
         `endif
         
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
@@ -123,7 +123,7 @@ module LLC_Cache;
         
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
         `ifdef DEBUG
-            $display("Victim is in Modified state. Performing BusWrite.");
+            $display("Victim is in Modified state.");
         `endif
             MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
@@ -141,7 +141,7 @@ module LLC_Cache;
 
         // Get snoop result for the new address
         snoop_result = GetSnoopResult(address);
-        if (snoop_result == HIT || snoop_result == HITM) begin
+        if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == HIT || snoop_result == HITM)) begin
 
             `ifdef DEBUG
             $display("Snoop response HIT or HITM. Transitioning to Shared state.");
@@ -153,7 +153,7 @@ module LLC_Cache;
             $display("Current state %0d", cache_mem[index].ways[victim_idx].mesi);
             `endif
 
-        end else begin
+        end else if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == NOHIT)) begin
 
             `ifdef DEBUG
             $display("No snoop hit. Transitioning to Exclusive state.");
@@ -174,7 +174,7 @@ end
 
 
 1: begin
-    $display("Write request from L1 data cache, Address: %h\n", address);
+    $display("\n-> Write request from L1 data cache, Address: %h", address);
     increment_write();
 
     if (addr_check(cache_mem, address, way_idx)) begin
@@ -187,16 +187,7 @@ end
 
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
-            `ifdef DEBUG
-            $display("Victim is in Modified state. Performing BusWrite.");
-            `endif
-
-            BusOperation(INVALIDATE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
-            cache_mem[index].ways[way_idx].mesi = M;
-        end else begin
-            cache_mem[index].ways[way_idx].mesi = M;
-        end
+        cache_mem[index].ways[way_idx].mesi = M;
 
     end else begin // Cache miss
         `ifdef DEBUG
@@ -218,15 +209,16 @@ end
             `endif
 
             MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
-        end
+        end else if (cache_mem[index].ways[victim_idx].mesi == S || cache_mem[index].ways[victim_idx].mesi == E) begin
+		MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	end
 
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
         BusOperation(RWIM, address, NormalMode);
         cache_mem[index].ways[victim_idx].tag = address[31:20];
         cache_mem[index].ways[victim_idx].mesi = M;
-
         MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
     end
 end
@@ -236,9 +228,8 @@ end
 2: begin
     increment_read();
 
-    `ifdef DEBUG
-    $display("Read request from L1 instruction cache, Address: %h\n", address);
-    `endif
+    $display("\n-> Read request from L1 instruction cache, Address: %h", address);
+    
 
     if (addr_check(cache_mem, address, way_idx)) begin
         `ifdef DEBUG
@@ -261,9 +252,9 @@ end
         increment_miss();
 
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
-        cache_mem[index].ways[victim_idx].tag = address[31:20];
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
 
+	MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
         BusOperation(READ, address, NormalMode);
 
         if (NOHIT == GetSnoopResult(address)) begin
@@ -271,30 +262,29 @@ end
         end else begin
             cache_mem[index].ways[victim_idx].mesi = S;
         end
-
+	cache_mem[index].ways[victim_idx].tag = address[31:20];
         MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
 end
 
 
 3: begin // Snooped Read Request
-    `ifdef DEBUG
-    $display("Snooped read request, Address: %h\n", address);
-    `endif
+
+    $display("\n-> Snooped read request, Address: %h", address);
+  
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
+        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
             PutSnoopResult(address, HIT);
+	    cache_mem[index].ways[way_idx].mesi = S;
         end else if (cache_mem[index].ways[way_idx].mesi == M) begin
             PutSnoopResult(address, HITM);
             MessageToCache(GETLINE, address);
-            BusOperation(WRITE, address, 1);
+            BusOperation(WRITE, address, NormalMode);
             cache_mem[index].ways[way_idx].mesi = S;
-        end else if (cache_mem[index].ways[way_idx].mesi == E) begin
-            PutSnoopResult(address, HIT);
-            cache_mem[index].ways[way_idx].mesi = S;
-        end
+        end 
+
     end else begin
         // Cache Miss
         PutSnoopResult(address, NOHIT);
@@ -303,27 +293,19 @@ end
 
 
 4: begin // Snooped Write Request
-    `ifdef DEBUG
-    $display("Snooped write request, Address: %h\n", address);
-    `endif
+    $display("\n-> Snooped write request, Address: %h", address);
+    
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
-        //    PutSnoopResult(address, HIT);
-        //    MessageToCache(INVALIDATELINE, address);
+        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
+              PutSnoopResult(address, HIT);
+              MessageToCache(INVALIDATELINE, address);
         //    cache_mem[index].ways[way_idx].mesi = I;
         end else if (cache_mem[index].ways[way_idx].mesi == M) begin
-
             `ifdef DEBUG
             $display("BUG ALERT: There will be NO Modified state ");
             `endif
-
-        end else if (cache_mem[index].ways[way_idx].mesi == E) begin
-            `ifdef DEBUG
-            $display("BUG ALERT: There will be NO Exclusive state ");
-            `endif
-
         end
     end else begin
         // Cache Miss
@@ -333,34 +315,34 @@ end
 
 
 5: begin // Snooped Read with Intent to Modify
-    `ifdef DEBUG
-    $display("Snooped read with intent to modify request, Address: %h\n", address);
-    `endif
+ 
+    $display("\n-> Snooped read with intent to modify request, Address: %h", address);
+    
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
-            PutSnoopResult(address, HIT); // Is it necessary?
-            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-            cache_mem[index].ways[way_idx].mesi = I;
-        end else if (cache_mem[index].ways[way_idx].mesi == M) begin
-            PutSnoopResult({cache_mem[index].ways[way_idx].tag, index, 6'b0}, HITM);
-            MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-            BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, 1);
-            cache_mem[index].ways[way_idx].mesi = I;
-        end else if (cache_mem[index].ways[way_idx].mesi == E) begin
-            PutSnoopResult({cache_mem[index].ways[way_idx].tag, index, 6'b0}, HIT);
-            cache_mem[index].ways[way_idx].mesi = I;
-        end
-    end
+	        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
+	            PutSnoopResult(address, HIT); // Is it necessary?
+	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+	            cache_mem[index].ways[way_idx].mesi = I;
+	        end else if (cache_mem[index].ways[way_idx].mesi == M) begin
+	            PutSnoopResult(address, HITM);
+	            MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+	            BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
+	            cache_mem[index].ways[way_idx].mesi = I;
+	        end 
+		
+    end else begin 
+	PutSnoopResult(address, NOHIT);
+	end
 end
 
               
 6: begin
-    `ifdef DEBUG
-    $display("Snooped invalidate command, Address: %h\n", address);
-    `endif
+    
+    $display("\n-> Snooped invalidate command, Address: %h", address);
+    
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache Hit
@@ -368,48 +350,44 @@ end
         $display("Cache Hit, address present");
         `endif
 
-        if ((cache_mem[index].ways[way_idx].mesi == S)) begin
-            PutSnoopResult({cache_mem[index].ways[way_idx].tag, index, 6'b0}, HIT); // Is it necessary?
-            `ifdef DEBUG
-            $display("Current St: S, Next St: I");
-            `endif
-            cache_mem[index].ways[way_idx].mesi = I;
-
-        end else if ((cache_mem[index].ways[way_idx].mesi == M)) begin
-
-            `ifdef DEBUG
-            $display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
-            `endif
-
-        end else if ((cache_mem[index].ways[way_idx].mesi == E)) begin
-
-            `ifdef DEBUG
-            $display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in E state");
-            `endif
-        end
+	        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
+	            PutSnoopResult(address, HIT); // Is it necessary?
+	            `ifdef DEBUG
+	//            $display("Current St: S, Next St: I");
+	            `endif
+		    MessageToCache(INVALIDATELINE, address);
+	            cache_mem[index].ways[way_idx].mesi = I;
+	
+	        end else if ((cache_mem[index].ways[way_idx].mesi == M)) begin
+	
+	            `ifdef DEBUG
+	 //           $display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
+	            `endif
+			MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+		        MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+		        BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
+		            
+	        end
     end else begin
-
-        `ifdef DEBUG
-        $display("Cache MISS");
-        `endif
+	PutSnoopResult(address, NOHIT);
     end
 end
 
                          
 
 8: begin
-    `ifdef DEBUG
-    $display("Clear the cache and reset all state.");
-    `endif
+    $display("\n-> Clearing the cache and resetting all state.");
 
     initialize_cache(); // Clear the cache
 
     `ifdef DEBUG
-        $display("Cache cleared and all states reset.");
+        $display("\n Cache cleared and all states reset.");
     `endif
 end
 
 9: begin // Print contents and state of each valid cache line
+        $display("\n-> Printing contents and state of each valid cache line.");
+
     for (int i = 0; i < NUM_SETS; i++) begin
         for (int j = 0; j < N_WAY; j++) begin
             if (cache_mem[i].ways[j].mesi != I) begin
@@ -433,14 +411,10 @@ end
 end
 end
 
-$display("No. of cache hits = %0d", cache_hits);
+$display("\nNo. of cache hits = %0d", cache_hits);
 $display("No. of cache misses = %0d", cache_misses);
 $display("No. of cache writes = %0d", cache_write);
-$display("No. of cache reads = %0d", cache_reads);
-$display("======================================= \n ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL!");
-
-
-
+$display("No. of cache reads = %0d \n", cache_reads);
 
 
 // Close the file after reading
@@ -449,6 +423,8 @@ $fclose(file);
     $display("Finished reading from %s.", trace_filename);
 `endif
 
+
+$display("=======================================\nANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL!");
 hit_ratio();
 end
 
