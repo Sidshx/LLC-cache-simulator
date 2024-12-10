@@ -130,7 +130,7 @@ module LLC_Cache;
 
         if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == HIT || snoop_result == HITM)) begin
 
-            cache_mem[index].ways[victim_idx].mesi = S
+            cache_mem[index].ways[victim_idx].mesi = S;
 
         end else if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == NOHIT)) begin
 
