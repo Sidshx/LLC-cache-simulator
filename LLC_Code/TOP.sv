@@ -290,6 +290,10 @@ end
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
+`ifdef DEBUG
+	$display("Snoop resulted in a hit at Way %0h | And State %0h ", way_idx, cache_mem[index].ways[way_idx].mesi.name());
+	`endif
+
 //              PutSnoopResult(address, HIT);
 //              MessageToCache(INVALIDATELINE, address);
 		`ifdef DEBUG
@@ -301,6 +305,9 @@ end
             $display("BUG ALERT: There will be NO Modified state ");
             `endif
         end
+`ifdef DEBUG
+	$display("Snooped address updated State is %0h ", cache_mem[index].ways[way_idx].mesi.name());
+	`endif
     end else begin
         // Cache Miss
         PutSnoopResult(address, NOHIT);
@@ -315,6 +322,10 @@ end
 
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
+`ifdef DEBUG
+	$display("Snoop resulted in a hit at Way %0h | And State %0h ", way_idx, cache_mem[index].ways[way_idx].mesi.name());
+	`endif
+
 	        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
 	            PutSnoopResult(address, HIT); // Is it necessary?
 	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
@@ -326,7 +337,9 @@ end
 	            BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
 	            cache_mem[index].ways[way_idx].mesi = I;
 	        end 
-		
+		`ifdef DEBUG
+	$display("Snooped address updated State is %0h ", cache_mem[index].ways[way_idx].mesi.name());
+	`endif
     end else begin 
 	PutSnoopResult(address, NOHIT);
 	end
@@ -339,8 +352,8 @@ end
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache Hit
         `ifdef DEBUG
-        $display("Cache Hit, address present");
-        `endif
+	$display("Snoop resulted in a hit at Way %0h | And State %0h ", way_idx, cache_mem[index].ways[way_idx].mesi.name());
+	`endif
 
 	        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
 	            PutSnoopResult(address, HIT); // Is it necessary?
@@ -360,6 +373,9 @@ end
 		        BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
 		            
 	        end
+`ifdef DEBUG
+	$display("Snooped address updated State is %0h ", cache_mem[index].ways[way_idx].mesi.name());
+	`endif
     end else begin
 	PutSnoopResult(address, NOHIT);
     end
