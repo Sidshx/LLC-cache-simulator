@@ -92,12 +92,9 @@ module LLC_Cache;
         `endif
 
         increment_hit();
-
-        `ifdef DEBUG
-        $display("Cache hit is = %0h, cache_misses is = %0h, way_idx = %0d", cache_hits, cache_misses, way_idx);
-        `endif
         
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
+
         MessageToCache(SENDLINE, address);
     end else begin
         // Cache miss
@@ -106,19 +103,14 @@ module LLC_Cache;
         `endif
 
         increment_miss();
-
-        `ifdef DEBUG
-//        $display("Cache hit is = %0h, cache_misses is = %0h, way_idx = %0d", cache_hits, cache_misses, way_idx);
-
-        `endif
-        
+     
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
-        cache_mem[index].ways[victim_idx].tag = address[31:20];
-        
-        if (cache_mem[index].ways[victim_idx].mesi == M) begin
+	cache_mem[index].ways[victim_idx].tag = address[31:20];
         `ifdef DEBUG
-            $display("Victim is in MODIFIED state. Performing BusWrite.");
+            $display("Victim is in state : %0h", cache_mem[index].ways[victim_idx].mesi.name());
         `endif
+        if (cache_mem[index].ways[victim_idx].mesi == M) begin
+        
 //            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
@@ -128,38 +120,27 @@ module LLC_Cache;
         BusOperation(READ, address, NormalMode);
 
         // Update cache with new data
-        `ifdef DEBUG
-        $display("Index = %0h, way = %0h, tag = %0h", index, way_idx, cache_mem[index].ways[way_idx].tag);
-        `endif
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx); // Update the PLRU tree
 
         // Get snoop result for the new address
         snoop_result = GetSnoopResult(address);
+	`ifdef DEBUG
+            $display("Snoop result is : %0h ", snoop_result.name());
+         `endif
+
         if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == HIT || snoop_result == HITM)) begin
 
-            `ifdef DEBUG
-            $display("Snoop response HIT or HITM. Transitioning to SHARED state.");
-            `endif
-
-            cache_mem[index].ways[victim_idx].mesi = S;
-
-            `ifdef DEBUG
-            $display("Current state %0d", cache_mem[index].ways[victim_idx].mesi);
-            `endif
+            cache_mem[index].ways[victim_idx].mesi = S
 
         end else if (cache_mem[index].ways[victim_idx].mesi == I && (snoop_result == NOHIT)) begin
 
-            `ifdef DEBUG
-            $display("No snoop hit. Transitioning to EXCLUSIVE state.");
-            `endif
-
+ 
             cache_mem[index].ways[victim_idx].mesi = E;
 
-            `ifdef DEBUG
-            $display("Current state %0d", cache_mem[index].ways[victim_idx].mesi);
-            `endif
         end
-
+	     `ifdef DEBUG
+            $display("Updated MESI state is %0h", cache_mem[index].ways[victim_idx].mesi.name());
+            `endif
         // Notify L1
         MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
     end
