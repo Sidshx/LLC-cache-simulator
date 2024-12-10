@@ -5,7 +5,7 @@ import pkg_line::*;
 
 	function automatic void UpdatePLRU(ref logic [N_WAY-2:0] plru_bits, input int way);
 	
-	bit [3:0]w = way;
+	bit [$clog2(N_WAY):0]w = way;
 	int PLRU_Tree;  // Start at the root of the PLRU tree
 	int i;
 	`ifdef  DEBUG
@@ -22,8 +22,10 @@ import pkg_line::*;
 	begin
 	   // Update the current PLRU bit based on the `w` value
 	   plru_bits[PLRU_Tree] = (way & (1 << i)) ? 1'b1 : 1'b0;
-	  // $display("PLRU BitUpdated PLRU[%d] = %b", PLRU_Tree, plru_bits[PLRU_Tree]);
-	   // Calculate the next index in the PLRU tree
+`ifdef DEBUG  
+$display("PLRU BitUpdated PLRU[%d] = %b", PLRU_Tree, plru_bits[PLRU_Tree]);
+`endif	
+   // Calculate the next index in the PLRU tree
 	   PLRU_Tree = (PLRU_Tree << 1) + ((way & (1 << i)) ? 2'b10 : 2'b01);
 	   //$display("Next PLRU Tree bit will be %d \n",PLRU_Tree); 
 	end
