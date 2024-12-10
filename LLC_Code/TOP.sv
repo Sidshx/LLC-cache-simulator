@@ -119,8 +119,8 @@ module LLC_Cache;
         `ifdef DEBUG
             $display("Victim is in MODIFIED state. Performing BusWrite.");
         `endif
-            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
         end 
 
@@ -210,11 +210,11 @@ end
             $display("Victim is in MODIFIED state. Performing BusWrite.");
             `endif
 
-            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
             BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
         end else if (cache_mem[index].ways[victim_idx].mesi == S || cache_mem[index].ways[victim_idx].mesi == E) begin
-		MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+		MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
 	end
 
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
@@ -256,7 +256,7 @@ end
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
 
-	MessageToCache(INVALIDATELINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
         BusOperation(READ, address, NormalMode);
 
         if (NOHIT == GetSnoopResult(address)) begin
@@ -286,7 +286,6 @@ end
             BusOperation(WRITE, address, NormalMode);
             cache_mem[index].ways[way_idx].mesi = S;
         end 
-
     end else begin
         // Cache Miss
         PutSnoopResult(address, NOHIT);
