@@ -178,10 +178,9 @@ end
         `endif
 
         increment_hit();
-
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
-        if (cache_mem[index].ways[way_idx].mesi == S) begin
+        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
             `ifdef DEBUG
             $display("Victim is in MODIFIED state. Performing BusWrite.");
             `endif
@@ -191,7 +190,6 @@ end
         end else begin
             cache_mem[index].ways[way_idx].mesi = M;
         end
-        cache_mem[index].ways[way_idx].mesi = M;
 
     end else begin // Cache miss
         `ifdef DEBUG
@@ -303,8 +301,11 @@ end
     if (addr_check(cache_mem, address, way_idx)) begin
         // Cache hit
         if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
-              PutSnoopResult(address, HIT);
-              MessageToCache(INVALIDATELINE, address);
+//              PutSnoopResult(address, HIT);
+//              MessageToCache(INVALIDATELINE, address);
+		`ifdef DEBUG
+            	$display("BUG ALERT: There will be NO Shared/Exclusive state ");
+            	`endif
         //    cache_mem[index].ways[way_idx].mesi = I;
         end else if (cache_mem[index].ways[way_idx].mesi == M) begin
             `ifdef DEBUG
