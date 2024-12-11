@@ -1,0 +1,294 @@
+vlog +define+DEBUG TOP.sv 
+# QuestaSim-64 vlog 2021.3_1 Compiler 2021.08 Aug 15 2021
+# Start time: 22:29:15 on Dec 10,2024
+# vlog -reportprogress 300 "+define+DEBUG" TOP.sv 
+# -- Compiling package pkg_line
+# -- Compiling package pkg_line
+# ** Warning: ** while parsing file included at TOP.sv(3)
+# ** while parsing file included at pkg_bus.sv(1)
+# ** at pkg_line.sv(1): (vlog-2275) Existing package 'pkg_line' at line 1 will be overwritten.
+# -- Compiling package pkg_bus
+# -- Importing package pkg_line
+# -- Compiling package pkg_line
+# ** Warning: ** while parsing file included at TOP.sv(4)
+# ** while parsing file included at pkg_plru.sv(1)
+# ** at pkg_line.sv(1): (vlog-2275) Existing package 'pkg_line' at line 1 will be overwritten.
+# -- Compiling package pkg_plru
+# ** Warning: TOP.sv(6): (vlog-13233) Design unit "TOP_sv_unit" already exists and will be overwritten. Design unit compiled with different set of options.
+# -- Compiling package TOP_sv_unit
+# -- Importing package pkg_plru
+# -- Importing package pkg_bus
+# -- Compiling module LLC_Cache
+# 
+# Top level modules:
+# 	LLC_Cache
+# End time: 22:29:15 on Dec 10,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 3
+vsim -c LLC_Cache -do "run -all" +trace_file=traces/t0.din
+# vsim -c LLC_Cache -do "run -all" "+trace_file=traces/t0.din" 
+# Start time: 22:32:37 on Dec 10,2024
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# A working code snippet to read and parse an input trace file, using a default file if the user does not specify a filename.
+# Using input trace file: traces/t0.din
+# File opened successfully: traces/t0.din 
+# 
+############### Initializing Cache ###############
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00000000 
+# Cache miss for address 00000000
+# Found Invalid MESI state in Way: 0
+# The victim found in way 0, and state I
+# BusOp: READ, Address: 00000000, Snoop Result: HIT
+# Updating for Way:           0 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Snoop result is : HIT 
+# Updated MESI state is S
+# L2: SENDLINE 00000000
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 3f
+# 
+# -> Read request from L1 data cache, Address: 0000003f 
+# Cache hit for address 3f | In way 0
+# Updating for Way:           0 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# L2: SENDLINE 0000003f
+# Parsed: n = 9, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Printing contents and state of each valid cache line.
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# 
+# No. of cache hits = 1
+# No. of cache misses = 1
+# No. of cache writes = 0
+# No. of cache reads = 2 
+# 
+# Finished reading from traces/t0.din.
+# =======================================
+# ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL ======================================!
+# Cache Hit Ratio = 0.500000 
+vsim -c LLC_Cache -do "run -all" +trace_file=traces/t17.din
+# End time: 22:33:04 on Dec 10,2024, Elapsed time: 0:00:27
+# Errors: 0, Warnings: 5
+# vsim -c LLC_Cache -do "run -all" "+trace_file=traces/t17.din" 
+# Start time: 22:33:04 on Dec 10,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt1
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# A working code snippet to read and parse an input trace file, using a default file if the user does not specify a filename.
+# Using input trace file: traces/t17.din
+# File opened successfully: traces/t17.din 
+# 
+############### Initializing Cache ###############
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 02
+# 
+# -> Read request from L1 data cache, Address: 00000002 
+# Cache miss for address 00000002
+# Found Invalid MESI state in Way: 0
+# The victim found in way 0, and state I
+# BusOp: READ, Address: 00000002, Snoop Result: NOHIT
+# Updating for Way:           0 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Snoop result is : NOHIT 
+# Updated MESI state is E
+# L2: SENDLINE 00000000
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 002, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00200000 
+# Cache miss for address 00200000
+# Found Invalid MESI state in Way: 1
+# The victim found in way 1, and state I
+# BusOp: READ, Address: 00200000, Snoop Result: HIT
+# Updating for Way:           1 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# Snoop result is : HIT 
+# Updated MESI state is S
+# L2: SENDLINE 00200000
+# Parsed: n = 1, 
+# Address: Tag[31:20] = 004, Index[19:6] = 0000, Offset[5:0] = 02
+# 
+# -> Write request from L1 data cache, Address: 00400002
+# Cache miss for address 00400002
+# Found Invalid MESI state in Way: 2
+# The victim found in way 2, and state I
+# Updating for Way:           2 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 0
+# BusOp: RWIM, Address: 00400002, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# Updated MESI state is M
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 006, Index[19:6] = 0000, Offset[5:0] = 02
+# 
+# -> Read request from L1 data cache, Address: 00600002 
+# Cache miss for address 00600002
+# Found Invalid MESI state in Way: 3
+# The victim found in way 3, and state I
+# BusOp: READ, Address: 00600002, Snoop Result: NOHIT
+# Updating for Way:           3 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 1
+# Snoop result is : NOHIT 
+# Updated MESI state is E
+# L2: SENDLINE 00600000
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 008, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00800000 
+# Cache miss for address 00800000
+# Found Invalid MESI state in Way: 4
+# The victim found in way 4, and state I
+# BusOp: READ, Address: 00800000, Snoop Result: HIT
+# Updating for Way:           4 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 0
+# Snoop result is : HIT 
+# Updated MESI state is S
+# L2: SENDLINE 00800000
+# Parsed: n = 1, 
+# Address: Tag[31:20] = 00a, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Write request from L1 data cache, Address: 00a00000
+# Cache miss for address 00a00000
+# Found Invalid MESI state in Way: 5
+# The victim found in way 5, and state I
+# Updating for Way:           5 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 1
+# BusOp: RWIM, Address: 00a00000, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# Updated MESI state is M
+# Parsed: n = 9, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Printing contents and state of each valid cache line.
+# Set: 0, Way: 0, MESI: E, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: E, Tag: 006
+# Set: 0, Way: 4, MESI: S, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00000000 
+# Cache hit for address 0 | In way 0
+# Updating for Way:           0 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# L2: SENDLINE 00000000
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 002, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00200000 
+# Cache hit for address 200000 | In way 1
+# Updating for Way:           1 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# L2: SENDLINE 00200000
+# Parsed: n = 0, 
+# Address: Tag[31:20] = 004, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Read request from L1 data cache, Address: 00400000 
+# Cache hit for address 400000 | In way 2
+# Updating for Way:           2 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 0
+# L2: SENDLINE 00400000
+# Parsed: n = 1, 
+# Address: Tag[31:20] = 006, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Write request from L1 data cache, Address: 00600000
+# Cache hit for address 600000 | In way 3
+# Updating for Way:           3 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 1
+# BusOp: INVALIDATE, Address: 00600000, Snoop Result: HIT
+# Updated MESI state is M
+# Parsed: n = 1, 
+# Address: Tag[31:20] = 008, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Write request from L1 data cache, Address: 00800000
+# Cache hit for address 800000 | In way 4
+# Updating for Way:           4 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 0
+# BusOp: INVALIDATE, Address: 00800000, Snoop Result: HIT
+# Updated MESI state is M
+# Parsed: n = 1, 
+# Address: Tag[31:20] = 00a, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Write request from L1 data cache, Address: 00a00000
+# Cache hit for address a00000 | In way 5
+# Updating for Way:           5 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 1
+# Updated MESI state is M
+# Parsed: n = 9, 
+# Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
+# 
+# -> Printing contents and state of each valid cache line.
+# Set: 0, Way: 0, MESI: E, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: M, Tag: 006
+# Set: 0, Way: 4, MESI: M, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# 
+# No. of cache hits = 6
+# No. of cache misses = 6
+# No. of cache writes = 5
+# No. of cache reads = 7 
+# 
+# Finished reading from traces/t17.din.
+# =======================================
+# ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL ======================================!
+# Cache Hit Ratio = 0.500000 
