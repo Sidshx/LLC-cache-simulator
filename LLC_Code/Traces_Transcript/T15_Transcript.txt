@@ -1,0 +1,210 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=./traces/t15.din
+# End time: 21:07:52 on Dec 09,2024, Elapsed time: 0:00:36
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=./traces/t15.din" 
+# Start time: 21:07:52 on Dec 09,2024
+# ** Note: (vsim-8009) Loading existing optimized design _opt3
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# Read request from L1 data cache, Address: 00000000 
+# 
+# Cache miss for address 00000000
+# Cache hit is  = 0, cache_misses is = 1, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 0
+# Busop: READ, Address: 00000000, Snoop Result: HIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           0 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 0
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 00000000
+# Read request from L1 data cache, Address: 00200001 
+# 
+# Cache miss for address 00200001
+# Cache hit is  = 0, cache_misses is = 2, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 1
+# Busop: READ, Address: 00200001, Snoop Result: HITM
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           1 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 00200000
+# Read request from L1 data cache, Address: 00400002 
+# 
+# Cache miss for address 00400002
+# Cache hit is  = 0, cache_misses is = 3, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 2
+# Busop: READ, Address: 00400002, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           2 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 0
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00400000
+# Read request from L1 data cache, Address: 00600003 
+# 
+# Cache miss for address 00600003
+# Cache hit is  = 0, cache_misses is = 4, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 3
+# Busop: READ, Address: 00600003, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           3 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 1
+# PLRU BitUpdated PLRU[          8] = 1
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00600000
+# Read request from L1 data cache, Address: 00800004 
+# 
+# Cache miss for address 00800004
+# Cache hit is  = 0, cache_misses is = 5, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 4
+# Busop: READ, Address: 00800004, Snoop Result: HIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           4 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 0
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 00800000
+# Read request from L1 data cache, Address: 00a00005 
+# 
+# Cache miss for address 00a00005
+# Cache hit is  = 0, cache_misses is = 6, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 5
+# Busop: READ, Address: 00a00005, Snoop Result: HITM
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           5 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 0
+# PLRU BitUpdated PLRU[          9] = 1
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 00a00000
+# Read request from L1 data cache, Address: 00c00006 
+# 
+# Cache miss for address 00c00006
+# Cache hit is  = 0, cache_misses is = 7, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 6
+# Busop: READ, Address: 00c00006, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           6 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 1
+# PLRU BitUpdated PLRU[         10] = 0
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00c00000
+# Read request from L1 data cache, Address: 00e00007 
+# 
+# Cache miss for address 00e00007
+# Cache hit is  = 0, cache_misses is = 8, way_idx = 0 
+# MESI state before entering function is = 1
+# Found Invalid MESI state in Way: 7
+# Busop: READ, Address: 00e00007, Snoop Result: NOHIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           7 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 1
+# PLRU BitUpdated PLRU[          4] = 1
+# PLRU BitUpdated PLRU[         10] = 1
+# No snoop hit. Transitioning to Exclusive state.
+# Current state 3
+# L2: SENDLINE 00e00000
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# Set: 0, Way: 2, MESI: E, Tag: 004
+# Set: 0, Way: 3, MESI: E, Tag: 006
+# Set: 0, Way: 4, MESI: S, Tag: 008
+# Set: 0, Way: 5, MESI: S, Tag: 00a
+# Set: 0, Way: 6, MESI: E, Tag: 00c
+# Set: 0, Way: 7, MESI: E, Tag: 00e
+# Snooped invalidate command, Address: 00200003
+# 
+# inside function way_idx = 1
+# Cache Hit, address present
+# SnoopResult: Address 00200000, SnoopResult: HIT
+# Current St: S, Next St: I
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 2, MESI: E, Tag: 004
+# Set: 0, Way: 3, MESI: E, Tag: 006
+# Set: 0, Way: 4, MESI: S, Tag: 008
+# Set: 0, Way: 5, MESI: S, Tag: 00a
+# Set: 0, Way: 6, MESI: E, Tag: 00c
+# Set: 0, Way: 7, MESI: E, Tag: 00e
+# Read request from L1 data cache, Address: 01000000 
+# 
+# Cache miss for address 01000000
+# Cache hit is  = 0, cache_misses is = 9, way_idx = 0 
+# MESI state before entering function is = 0
+# Found Invalid MESI state in Way: 1
+# Busop: READ, Address: 01000000, Snoop Result: HIT
+# Index = 0, way = 0, tag = 0
+# Updating for Way:           1 
+# 
+# 
+# PLRU BitUpdated PLRU[          0] = 0
+# PLRU BitUpdated PLRU[          1] = 0
+# PLRU BitUpdated PLRU[          3] = 0
+# PLRU BitUpdated PLRU[          7] = 1
+# Snoop response HIT or HITM. Transitioning to Shared state.
+# Current state 1
+# L2: SENDLINE 01000000
+# Set: 0, Way: 0, MESI: S, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 010
+# Set: 0, Way: 2, MESI: E, Tag: 004
+# Set: 0, Way: 3, MESI: E, Tag: 006
+# Set: 0, Way: 4, MESI: S, Tag: 008
+# Set: 0, Way: 5, MESI: S, Tag: 00a
+# Set: 0, Way: 6, MESI: E, Tag: 00c
+# Set: 0, Way: 7, MESI: E, Tag: 00e
+# No. of cache reads = 9
+# No. of cache writes = 0
+# No. of cache hits = 0
+# No. of cache misses = 9
+# Cache hit ratio = 0.000000 
+# Cache hit ratio = 0.000000 

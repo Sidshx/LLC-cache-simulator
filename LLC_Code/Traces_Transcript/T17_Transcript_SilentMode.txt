@@ -1,0 +1,79 @@
+vsim -c LLC_Cache -do "run -all" +trace_file=traces/t17.din
+# End time: 22:52:12 on Dec 10,2024, Elapsed time: 0:19:08
+# Errors: 0, Warnings: 1
+# vsim -c LLC_Cache -do "run -all" "+trace_file=traces/t17.din" 
+# Start time: 22:52:12 on Dec 10,2024
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.pkg_line(fast)
+# Loading work.pkg_bus(fast)
+# Loading work.pkg_plru(fast)
+# Loading work.TOP_sv_unit(fast)
+# Loading work.LLC_Cache(fast)
+# run -all
+# 
+# -> Read request from L1 data cache, Address: 00000002 
+# BusOp: READ, Address: 00000002, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# 
+# -> Read request from L1 data cache, Address: 00200000 
+# BusOp: READ, Address: 00200000, Snoop Result: HIT
+# L2: SENDLINE 00200000
+# 
+# -> Write request from L1 data cache, Address: 00400002
+# BusOp: RWIM, Address: 00400002, Snoop Result: NOHIT
+# L2: SENDLINE 00000000
+# 
+# -> Read request from L1 data cache, Address: 00600002 
+# BusOp: READ, Address: 00600002, Snoop Result: NOHIT
+# L2: SENDLINE 00600000
+# 
+# -> Read request from L1 data cache, Address: 00800000 
+# BusOp: READ, Address: 00800000, Snoop Result: HIT
+# L2: SENDLINE 00800000
+# 
+# -> Write request from L1 data cache, Address: 00a00000
+# BusOp: RWIM, Address: 00a00000, Snoop Result: HIT
+# L2: SENDLINE 00000000
+# 
+# -> Printing contents and state of each valid cache line.
+# Set: 0, Way: 0, MESI: E, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: E, Tag: 006
+# Set: 0, Way: 4, MESI: S, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# 
+# -> Read request from L1 data cache, Address: 00000000 
+# L2: SENDLINE 00000000
+# 
+# -> Read request from L1 data cache, Address: 00200000 
+# L2: SENDLINE 00200000
+# 
+# -> Read request from L1 data cache, Address: 00400000 
+# L2: SENDLINE 00400000
+# 
+# -> Write request from L1 data cache, Address: 00600000
+# BusOp: INVALIDATE, Address: 00600000, Snoop Result: HIT
+# 
+# -> Write request from L1 data cache, Address: 00800000
+# BusOp: INVALIDATE, Address: 00800000, Snoop Result: HIT
+# 
+# -> Write request from L1 data cache, Address: 00a00000
+# 
+# -> Printing contents and state of each valid cache line.
+# Set: 0, Way: 0, MESI: E, Tag: 000
+# Set: 0, Way: 1, MESI: S, Tag: 002
+# Set: 0, Way: 2, MESI: M, Tag: 004
+# Set: 0, Way: 3, MESI: M, Tag: 006
+# Set: 0, Way: 4, MESI: M, Tag: 008
+# Set: 0, Way: 5, MESI: M, Tag: 00a
+# 
+# No. of cache hits = 6
+# No. of cache misses = 6
+# No. of cache writes = 5
+# No. of cache reads = 7 
+# 
+# =======================================
+# ANKARA MESSI ANKARA MESSI MESSI MESSI ANKARA MESSI GOAAAAAAAAAAAAAAAL ======================================!
+# Cache Hit Ratio = 0.500000 
