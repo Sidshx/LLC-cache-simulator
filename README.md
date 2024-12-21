@@ -21,7 +21,7 @@ This project focuses on designing and simulating a Last Level Cache (LLC) for pr
 
 ## Functional Highlights
 - Implements **MESI protocol** for cache coherence.
-- Supports **silent**, **normal**, and **debug** simulation modes.
+- Supports **silent** and **debug** simulation modes.
 - Provides detailed statistics, including cache hit/miss ratios and MESI state transitions.
 
 ## Testing Strategies
