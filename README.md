@@ -1,6 +1,6 @@
 # Last Level Cache Design and Simulation
 
-This project focuses on designing and simulating a Last Level Cache (LLC) for processors, addressing the challenge of memory systems lagging behind high-speed processors. By implementing a caching mechanism, critical data and instructions are stored closer to the processor for faster access.
+This project focuses on designing and simulating a Last Level Cache (LLC) for processors, addressing the challenge of memory systems lagging behind high-speed processors. By implementing a caching mechanism, critical data and instructions are stored closer to the processor for faster access. This project is fully parameterizable and can be easily adapted to changes in the given specifications.
 
 ## Key Features
 ### L2 Cache Specifications
