@@ -2,6 +2,39 @@
 
 This project focuses on designing and simulating a Last Level Cache (LLC) for processors, addressing the challenge of memory systems lagging behind high-speed processors. By implementing a caching mechanism, critical data and instructions are stored closer to the processor for faster access. This project is fully parameterizable and can be easily adapted to changes in the given specifications.
 
+# Project File Structure
+
+# Project File Structure
+
+```
++---Documents
+|       ECE585_F24_MSD_Group11_Project_Report.pdf
+|       Group11_chcekpoint2.pptx
+|       ProjectRequirements.pdf
+|       cc1.din
+|       rwims.din
+|       
++---LLC_Code
+|   |   TOP.sv
+|   |   cc1.din
+|   |   pkg_bus.sv
+|   |   pkg_line.sv
+|   |   pkg_plru.sv
+|   |   rwims.din
+|   |   
+|   +---traces
+|   |       t0.din
+|   |       t1.din
+|   |       t10.din
+|   |       ...
+|   |       
+|   \---Traces_Transcript
+|           T0_Transcript.txt
+|           T10_Transcript.txt
+|           T11_Transcript.txt
+            ...
+```     
+
 ## Key Features
 ### L2 Cache Specifications
 - **Total Capacity**: 16MB
