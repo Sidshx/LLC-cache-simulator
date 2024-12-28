@@ -27,17 +27,17 @@ package pkg_line;
 
 	function automatic bit addr_check (
 	    ref set_st cache_mem[NUM_SETS],  // Cache memory passed by reference
-	    input bit [31:0] address,
+	    input bit [ADDR_SIZE-1:0] address,
 	    output int way_idx               // Address to check
 	);
 	
-	    bit [INDEX_SIZE-1:0] index = address[19:6];  // Extract index from the address
+	    bit [INDEX_SIZE-1:0] index = address[OFFSET_SIZE+INDEX_SIZE-1:OFFSET_SIZE];  // Extract index from the address
 	    way_idx = 'z;  // Default value when no match is found
 	
 	    // Loop through the ways in the set
-	    for (int i = 0; i < 16; i++) begin
+	    for (int i = 0; i < N_WAY; i++) begin
 	        if ((cache_mem[index].ways[i].mesi != 0) && 
-	            (cache_mem[index].ways[i].tag == address[31:20])) begin
+	            (cache_mem[index].ways[i].tag == address[ADDR_SIZE-1 : ADDR_SIZE-TAG_SIZE])) begin
 	            way_idx = i;  // Store the way index where the match occurs
 	            return 1'b1;   // Return 1 if a match is found
 	        end
