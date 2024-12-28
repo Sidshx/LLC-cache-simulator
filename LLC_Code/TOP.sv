@@ -21,7 +21,7 @@ module LLC_Cache;
 
     initial begin
         int n;
-        bit [31:0] address;
+        bit [ADDR_SIZE-1:0] address;
         bit[TAG_SIZE-1:0] tag;
         bit[INDEX_SIZE-1:0] index;
         int way_idx; 
@@ -42,7 +42,7 @@ module LLC_Cache;
 	    `endif
 	end
 	
-	// Open the trace file
+	// Open the trace file//thoth.cecs.pdx.edu/Home07/patilsid/My Documents/LLC/LLC-cache-simulator/LLC_Code/TOP.sv
 	file = $fopen(trace_filename, "r"); // Added else condition
 	if (file) begin
 	    `ifdef DEBUG
@@ -68,13 +68,12 @@ module LLC_Cache;
 	        if ($sscanf(line, "%d %h", n, address) == 2) begin
 	            `ifdef DEBUG
 	                $display("Parsed: n = %0d, \nAddress: Tag[31:20] = %h, Index[19:6] = %h, Offset[5:0] = %h",
-	                         n, address[31:20], address[19:6], address[5:0]);
+	                         n, address[ADDR_SIZE-1 : ADDR_SIZE-TAG_SIZE], address[OFFSET_SIZE+INDEX_SIZE-1 : OFFSET_SIZE], address[OFFSET_SIZE-1 : 0]);
 	            `endif
 	
 	            // Address Read from trace file and segregated into tag and index bits
 	            // tag = address[31:20];
-	            index = address[19:6];
-
+	            index = address[OFFSET_SIZE+INDEX_SIZE-1 : OFFSET_SIZE];
 
 
             // Process each trace event based on `n` value
@@ -105,15 +104,15 @@ module LLC_Cache;
         increment_miss();
      
         victim_idx = VictimPLRU(cache_mem[index].plru_bits, cache_mem[index].ways); // Find victim way
-	cache_mem[index].ways[victim_idx].tag = address[31:20];
+	cache_mem[index].ways[victim_idx].tag = address[ADDR_SIZE-1 : ADDR_SIZE-TAG_SIZE];
         `ifdef DEBUG
         $display("The victim found in way %0h, and state %0h", victim_idx, cache_mem[index].ways[victim_idx].mesi.name());
         `endif
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
         
-//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}}, NormalMode);
         end 
 
         // Perform BusRead operation
@@ -141,7 +140,7 @@ module LLC_Cache;
             $display("Updated MESI state is %0h", cache_mem[index].ways[victim_idx].mesi.name());
             `endif
         // Notify L1
-        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
     end
 end
 
@@ -160,7 +159,7 @@ end
         UpdatePLRU(cache_mem[index].plru_bits, way_idx); // Update PLRU for cache hit
 
         if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
-            BusOperation(INVALIDATE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
+            BusOperation(INVALIDATE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}}, NormalMode);
             cache_mem[index].ways[way_idx].mesi = M;
         end else begin
             cache_mem[index].ways[way_idx].mesi = M;
@@ -183,20 +182,20 @@ end
 
         if (cache_mem[index].ways[victim_idx].mesi == M) begin
 
-//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
-            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0}, NormalMode);
+//            MessageToCache(GETLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+            MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+            BusOperation(WRITE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}}, NormalMode);
         end else if (cache_mem[index].ways[victim_idx].mesi == S || cache_mem[index].ways[victim_idx].mesi == E) begin
-		MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+		MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
 	end
 
 	
         UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
         BusOperation(RWIM, address, NormalMode);
-        cache_mem[index].ways[victim_idx].tag = address[31:20];
+        cache_mem[index].ways[victim_idx].tag = address[ADDR_SIZE-1 : ADDR_SIZE-TAG_SIZE];
         cache_mem[index].ways[victim_idx].mesi = M;
 	
-        MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+        MessageToCache(SENDLINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
 	`ifdef DEBUG
             $display("Updated MESI state is %0h", cache_mem[index].ways[victim_idx].mesi.name());
         `endif
@@ -235,7 +234,7 @@ end
         `endif
 	UpdatePLRU(cache_mem[index].plru_bits, victim_idx);
 
-	MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	MessageToCache(EVICTLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
         BusOperation(READ, address, NormalMode);
 	`ifdef DEBUG
             $display("Snoop result is : %0h ", GetSnoopResult(address).name());
@@ -245,8 +244,8 @@ end
         end else begin
             cache_mem[index].ways[victim_idx].mesi = S;
         end
-	cache_mem[index].ways[victim_idx].tag = address[31:20];
-        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, 6'b0});
+	cache_mem[index].ways[victim_idx].tag = address[ADDR_SIZE-1 : ADDR_SIZE-TAG_SIZE];
+        MessageToCache(SENDLINE, {cache_mem[index].ways[victim_idx].tag, index, {OFFSET_SIZE{1'b0}}});
 	`ifdef DEBUG
             $display("Updated MESI state is %0h", cache_mem[index].ways[victim_idx].mesi.name());
             `endif
@@ -328,13 +327,13 @@ end
 
 	        if (cache_mem[index].ways[way_idx].mesi == S || cache_mem[index].ways[way_idx].mesi == E) begin
 	            PutSnoopResult(address, HIT); // Is it necessary?
-	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
+	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
 	            cache_mem[index].ways[way_idx].mesi = I;
 	        end else if (cache_mem[index].ways[way_idx].mesi == M) begin
 	            PutSnoopResult(address, HITM);
-	            MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-	            BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
+	            MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+	            MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+	            BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}}, NormalMode);
 	            cache_mem[index].ways[way_idx].mesi = I;
 	        end 
 		`ifdef DEBUG
@@ -368,9 +367,9 @@ end
 	            `ifdef DEBUG
 	 //           $display("BUG ALERT: For BUS Invalidate CMD(BusUpgr) it is going in M state");
 	            `endif
-			MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-		        MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, 6'b0});
-		        BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, 6'b0}, NormalMode);
+			MessageToCache(GETLINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+		        MessageToCache(INVALIDATELINE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}});
+		        BusOperation(WRITE, {cache_mem[index].ways[way_idx].tag, index, {OFFSET_SIZE{1'b0}}}, NormalMode);
 		            
 	        end
 `ifdef DEBUG
