@@ -31,8 +31,21 @@ This project focuses on designing and simulating a Last Level Cache (LLC) for pr
 |           T10_Transcript.txt
 |           T11_Transcript.txt
             ...
-```     
+```
+# Simulation and Debugging Commands
 
+## DEBUG mode: With `DEBUG` Defined
+```bash
+vlog +define+DEBUG TOP.sv
+```
+## SILENT mode 
+```bash
+vlog TOP.sv
+```
+## To Run
+```bash
+vsim -c LLC_Cache -do "run -all" +trace_file=cc1.din
+```
 ## Key Features
 ### L2 Cache Specifications
 - **Total Capacity**: 16MB
