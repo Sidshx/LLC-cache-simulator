@@ -7,8 +7,6 @@ This project focuses on designing and simulating a Last Level Cache (LLC) for pr
 ```
 +---Documents
 |       ECE585_F24_MSD_Group11_Project_Report.pdf
-|       Group11_chcekpoint2.pptx
-|       ProjectRequirements.pdf
 |       cc1.din
 |       rwims.din
 |       
