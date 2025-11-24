@@ -17,6 +17,8 @@ package pkg_line;
 		mesi_e mesi;
 		logic [TAG_SIZE-1:0] tag;
 	} line_st;
+// offset and index bits need not be stored, only computed once when received.
+
 	
 	typedef struct {
 	    logic [N_WAY-2:0] plru_bits;  // PLRU bits
