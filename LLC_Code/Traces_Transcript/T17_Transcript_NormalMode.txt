@@ -192,7 +192,7 @@ vsim -c LLC_Cache -do "run -all" +trace_file=traces/t17.din
 # PLRU BitUpdated PLRU[          4] = 0
 # PLRU BitUpdated PLRU[          9] = 1
 # BusOp: RWIM, Address: 00a00000, Snoop Result: HIT
-# L2: SENDLINE 00000000
+# L2: SENDLINE 00a00000
 # Updated MESI state is M
 # Parsed: n = 9, 
 # Address: Tag[31:20] = 000, Index[19:6] = 0000, Offset[5:0] = 00
