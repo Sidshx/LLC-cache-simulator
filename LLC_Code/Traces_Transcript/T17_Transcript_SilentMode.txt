@@ -22,7 +22,7 @@ vsim -c LLC_Cache -do "run -all" +trace_file=traces/t17.din
 # 
 # -> Write request from L1 data cache, Address: 00400002
 # BusOp: RWIM, Address: 00400002, Snoop Result: NOHIT
-# L2: SENDLINE 00000000
+# L2: SENDLINE 00400000
 # 
 # -> Read request from L1 data cache, Address: 00600002 
 # BusOp: READ, Address: 00600002, Snoop Result: NOHIT
@@ -34,7 +34,7 @@ vsim -c LLC_Cache -do "run -all" +trace_file=traces/t17.din
 # 
 # -> Write request from L1 data cache, Address: 00a00000
 # BusOp: RWIM, Address: 00a00000, Snoop Result: HIT
-# L2: SENDLINE 00000000
+# L2: SENDLINE 00a00000
 # 
 # -> Printing contents and state of each valid cache line.
 # Set: 0, Way: 0, MESI: E, Tag: 000
